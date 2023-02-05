@@ -1,0 +1,110 @@
+{
+  "version": 3,
+  "targets": {
+    "net7.0": {
+      "Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Core.dll": {}
+        }
+      },
+      "Games/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/Games.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Games.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Core/1.0.0": {
+      "type": "project",
+      "path": "../Core/Core.csproj",
+      "msbuildProject": "../Core/Core.csproj"
+    },
+    "Games/1.0.0": {
+      "type": "project",
+      "path": "../Games/Games.csproj",
+      "msbuildProject": "../Games/Games.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net7.0": [
+      "Core >= 1.0.0",
+      "Games >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\Flog\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\Flog\\Documents\\Hscool\\GamingPlatform\\GameDesktopApp\\GameDesktopApp.csproj",
+      "projectName": "GameDesktopApp",
+      "projectPath": "C:\\Users\\Flog\\Documents\\Hscool\\GamingPlatform\\GameDesktopApp\\GameDesktopApp.csproj",
+      "packagesPath": "C:\\Users\\Flog\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Flog\\Documents\\Hscool\\GamingPlatform\\GameDesktopApp\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\Flog\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net7.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "projectReferences": {
+            "C:\\Users\\Flog\\Documents\\Hscool\\GamingPlatform\\Core\\Core.csproj": {
+              "projectPath": "C:\\Users\\Flog\\Documents\\Hscool\\GamingPlatform\\Core\\Core.csproj"
+            },
+            "C:\\Users\\Flog\\Documents\\Hscool\\GamingPlatform\\Games\\Games.csproj": {
+              "projectPath": "C:\\Users\\Flog\\Documents\\Hscool\\GamingPlatform\\Games\\Games.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net7.0": {
+        "targetAlias": "net7.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
