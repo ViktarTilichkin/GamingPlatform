@@ -18,6 +18,7 @@ internal class Program
         // RepositoryData data = new RepositoryData();
         UserRepository data2 = new UserRepository();
         data2.GetAll();
+
         //while (true)
         //{
         //    if (!autorizationIn)

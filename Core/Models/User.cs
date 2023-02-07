@@ -4,7 +4,7 @@ namespace Core.Models
 {
     public class User
     {
-        //[JsonInclude]
+        
         public int Id { get; }
         public string Name { get; set; }
         public string Password { get; set; }
