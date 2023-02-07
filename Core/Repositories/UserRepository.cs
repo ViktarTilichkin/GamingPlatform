@@ -11,13 +11,13 @@ namespace Core.Repositories
     public class UserRepository
     {
         private string path = AppDomain.CurrentDomain.BaseDirectory;
-        private List<User> GetAll()
+        public List<User> GetAll()
         {
             List<User> users = new List<User>();
             var serializeoptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            }
+            };
             try
             {
                 using StreamReader sr1 = new StreamReader($"{path}users.txt");
@@ -41,69 +41,69 @@ namespace Core.Repositories
             List<User> userList = GetAll();
             for (int i = 0; i < userList.Count; i++)
             {
-                if (userList[i].Name.Equals(login) && userList[i].Password.Equals(password)
+                if (userList[i].Name.Equals(login) && userList[i].Password.Equals(password))
                 {
                     return userList[i];
                 }
             }
             return null;
         }
-        public User Create(User newuser)
-        {
-            List<User> userList = GetAll();
-            for (int i = 0; i < userList.Count; i++)
-            {
-                if (userList[i].Name.Equals(login))
-                {
-                    return null;
-                }
-            }
-            userList.Add(newuser);
-            var serializeoptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            }
-            StreamWriter sw1 = new StreamWriter($"{path}users.txt");
-            sw1 = JsonSerializer.Serialize<User>(List<User>, serializeoptions);
-            return newuser;
-        }
-        public user Update()
-        {
-            List<User> userList = GetAll();
-            for (int i = 0; i < userList.Count; i++)
-            {
-                if (userList[i].Name.Equals(login))
-                {
-                    return null;
-                }
-            }
-            userList.Add(newuser);
-            var serializeoptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            }
-            StreamWriter sw1 = new StreamWriter($"{path}users.txt");
-            sw1 = JsonSerializer.Serialize<User>(List<User>, serializeoptions);
-            return newuser;
-        }
-        public bool Delete(User delUser)
-        {
-            List<User> userList = GetAll();
-            for (int i = 0; i < userList.Count; i++)
-            {
-                if (userList[i].Name.Equals(delUser.Name))
-                {
-                    userList.Remove(delUser)
-                }
-            }
-            userList.Add(newuser);
-            var serializeoptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            }
-            StreamWriter sw1 = new StreamWriter($"{path}users.txt");
-            sw1 = JsonSerializer.Serialize<User>(List<User>, serializeoptions);
-            return newuser;
-        }
+        //public User Create(User newuser)
+        //{
+        //    List<User> userList = GetAll();
+        //    for (int i = 0; i < userList.Count; i++)
+        //    {
+        //        if (userList[i].Name.Equals(newuser.Name))
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //    userList.Add(newuser);
+        //    var serializeoptions = new JsonSerializerOptions
+        //    {
+        //        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        //    };
+        //    StreamWriter sw1 = new StreamWriter($"{path}users.txt");
+        //    sw1 = JsonSerializer.Serialize<User>(userList, serializeoptions);
+        //    return newuser;
+        //}
+        //public User Update(User user)
+        //{
+        //    List<User> userList = GetAll();
+        //    for (int i = 0; i < userList.Count; i++)
+        //    {
+        //        if (userList[i].Name.Equals(user.Name))
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //    userList.Add(user);
+        //    var serializeoptions = new JsonSerializerOptions
+        //    {
+        //        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        //    };
+        //    StreamWriter sw1 = new StreamWriter($"{path}users.txt");
+        //    sw1 = JsonSerializer.Serialize<User>(user, serializeoptions);
+        //    return null;
+        //}
+        //public bool Delete(User delUser)
+        //{
+        //    List<User> userList = GetAll();
+        //    for (int i = 0; i < userList.Count; i++)
+        //    {
+        //        if (userList[i].Name.Equals(delUser.Name))
+        //        {
+        //            userList.Remove(delUser)
+        //        }
+        //    }
+        //    userList.Add(newuser);
+        //    var serializeoptions = new JsonSerializerOptions
+        //    {
+        //        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        //    }
+        //    StreamWriter sw1 = new StreamWriter($"{path}users.txt");
+        //    sw1 = JsonSerializer.Serialize<User>(List<User>, serializeoptions);
+        //    return newuser;
+        //}
     }
 }

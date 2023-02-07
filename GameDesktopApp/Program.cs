@@ -9,16 +9,14 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        //ApplicationTransaction obj1 = new ApplicationTransaction();
         //Account users = new Account();
-        //WorkflowTransaction transaction = new WorkflowTransaction();
-        bool autorizationIn = false;
-        User? user = null;
-        string? menu = "";
-        // RepositoryData data = new RepositoryData();
+        //User? user = null;
+        //string? menu = "";
+        //RepositoryData data = new RepositoryData();
         UserRepository data2 = new UserRepository();
-        data2.GetAll();
-
+        //data2.GetAll();
+        Console.WriteLine(data2.Login("admin", "1234"));
+        Console.WriteLine("hello");
         //while (true)
         //{
         //    if (!autorizationIn)
