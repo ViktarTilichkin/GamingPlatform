@@ -17,6 +17,32 @@ internal class Program
         //data2.GetAll();
         Console.WriteLine(data2.Login("admin", "1234"));
         Console.WriteLine("hello");
+        User user = new User(2, "poluadmin", "1234");
+        Console.WriteLine(data2.Create(user));
+        User user1 = new User(3, "poluadmin2", "1234");
+        Console.WriteLine(data2.Create(user1));
+        User user2 = new User(4, "poluadmin3", "1234");
+        Console.WriteLine(data2.Create(user2));
+        Console.WriteLine("wrongcreate");
+        User user4 = new User(5, "poluadmin3", "1234");
+        Console.WriteLine(data2.Create(user4));
+        List<User> test = data2.GetAll();
+        foreach (var item in test)
+        {
+            Console.WriteLine(item);
+        }
+        Console.WriteLine("login");
+        Console.WriteLine(data2.Login("poluadmin2", "1234"));
+        Console.WriteLine("login");
+        Console.WriteLine(data2.Login("www2", "1234"));
+        Console.WriteLine("delete");
+        Console.WriteLine(data2.Delete(user2));
+        Console.WriteLine("delete end");
+        test = data2.GetAll();
+        foreach (var item in test)
+        {
+            Console.WriteLine(item);
+        }
         //while (true)
         //{
         //    if (!autorizationIn)
