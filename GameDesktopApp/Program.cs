@@ -43,6 +43,14 @@ internal class Program
         {
             Console.WriteLine(item);
         }
+        Console.WriteLine("update");
+        user2 = new User(11, "poluadmin", "1321545215");
+        Console.WriteLine(data2.Update(user2));
+        test = data2.GetAll();
+        foreach (var item in test)
+        {
+            Console.WriteLine(item);
+        }
         //while (true)
         //{
         //    if (!autorizationIn)

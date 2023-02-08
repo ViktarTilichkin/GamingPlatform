@@ -80,10 +80,10 @@ namespace Core.Repositories
             {
                 if (userList[i].Name.Equals(user.Name))
                 {
-                    return null;
+                    userList[i] = user;
+
                 }
             }
-            userList.Add(user);
             var serializeoptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -91,8 +91,11 @@ namespace Core.Repositories
             StreamWriter sw1 = new StreamWriter($"{path}users.txt");
             for (int i = 0; i < userList.Count; i++)
             {
-                string json = JsonSerializer.Serialize<User>(userList[i], serializeoptions);
-                sw1.WriteLine(json);
+                if (userList[i] != null)
+                {
+                    string json = JsonSerializer.Serialize<User>(userList[i], serializeoptions);
+                    sw1.WriteLine(json);
+                }
             }
             sw1.Close();
             return null;
