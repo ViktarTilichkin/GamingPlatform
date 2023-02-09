@@ -9,7 +9,8 @@ namespace Core.Menu
 {
     public static class Menu
     {
-        public static void Menu()
+
+        public static void Menu(bool autorizationIn, string? numberMenu)
         {
             while (true)
             {
@@ -21,21 +22,20 @@ namespace Core.Menu
                     Console.WriteLine("3 Игры");
                     Console.WriteLine("0 Выход из программы");
                     Console.WriteLine("Введите номер меню");
-                    muneStart()
-                    menu = Console.ReadLine();
-                    if (menu.Equals("1"))
+                    numberMenu = Console.ReadLine();
+                    if (numberMenu.Equals("1"))
                     {
                         while (true)
                         {
                             Console.WriteLine("Меню регистраци");
                             Console.WriteLine("1 регистрация");
                             Console.WriteLine("0 Выход");
-                            menu = Console.ReadLine();
-                            if (menu.Equals("1"))
+                            numberMenu = Console.ReadLine();
+                            if (numberMenu.Equals("1"))
                             {
-                                Console.WriteLine(data.Read());
+                                // Console.WriteLine(data.Read());
                             }
-                            else if (menu.Equals("0"))
+                            else if (numberMenu.Equals("0"))
                             {
                                 break;
                             }
