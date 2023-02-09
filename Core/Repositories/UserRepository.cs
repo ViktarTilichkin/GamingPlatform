@@ -10,6 +10,7 @@ namespace Core.Repositories
 {
     public class UserRepository
     {
+        
         private string path = AppDomain.CurrentDomain.BaseDirectory;
         public List<User> GetAll()
         {
@@ -37,12 +38,12 @@ namespace Core.Repositories
             }
             return null;
         }
-        public User Login(string login, string password)
+        public User GetOne(string login)
         {
             List<User> userList = GetAll();
             for (int i = 0; i < userList.Count; i++)
             {
-                if (userList[i].Name.Equals(login) && userList[i].Password.Equals(password))
+                if (userList[i].Name.Equals(login))
                 {
                     return userList[i];
                 }

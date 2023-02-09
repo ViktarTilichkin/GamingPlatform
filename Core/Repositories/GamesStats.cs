@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core
+namespace Core.Repositories
 {
-    internal class Authorization
+    internal class GamesStats
     {
     }
 }
