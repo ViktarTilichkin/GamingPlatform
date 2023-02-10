@@ -5,17 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Controller;
+using Core.Models;
 
 namespace Core.Menu
 {
     public static class Menu
     {
-        public static void MenuStart(bool autorizationIn, string? numberMenu, int? userId)
+        public static void MenuStart(bool autorizationIn, string? numberMenu, User? user)
         {
             while (true)
             {
+                Console.Clear();
                 if (!autorizationIn)
                 {
+                    Console.Clear();
                     Console.WriteLine("Список доступных меню:");
                     Console.WriteLine("1 Регистраация");
                     Console.WriteLine("2 Авторизация");
@@ -25,6 +28,7 @@ namespace Core.Menu
                     numberMenu = Console.ReadLine();
                     if (numberMenu.Equals("1"))
                     {
+                        Console.Clear();
                         while (true)
                         {
                             Console.WriteLine("Меню регистраци");
@@ -33,11 +37,12 @@ namespace Core.Menu
                             numberMenu = Console.ReadLine();
                             if (numberMenu.Equals("1"))
                             {
-                                
+
                                 PlatformController ControllerUser = new PlatformController();
-                                (bool,int?) result = ControllerUser.Create();
+                                (bool, User?) result = ControllerUser.Create();
                                 autorizationIn = result.Item1;
-                                userId = result.Item2;
+                                user = result.Item2;
+
                             }
                             else if (numberMenu.Equals("0"))
                             {
@@ -47,27 +52,47 @@ namespace Core.Menu
                     }
                     else if (numberMenu.Equals("2"))
                     {
+                        Console.Clear();
                         while (true)
                         {
-                            Console.WriteLine("Меню регистрации");
-                            Console.WriteLine("1 регестрация");
-                            Console.WriteLine("0 Выход");
-                            Console.WriteLine("Введите номер меню");
-                            numberMenu = Console.ReadLine();
-                            if (numberMenu.Equals("1"))
+                            if (autorizationIn)
                             {
-                                // вызываем класс авторизации и проверяем пользователя
+                                Console.Clear();
+                                Console.WriteLine("Меню авторизации");
+                                Console.WriteLine("1 изменение аккаунта");
+                                Console.WriteLine("0 Выход");
+                                Console.WriteLine("Введите номер меню");
+                                numberMenu = Console.ReadLine();
+                                if (numberMenu.Equals("1"))
+                                {
+                                    PlatformController ControllerUser = new PlatformController();
+                                    (bool, User?) result = ControllerUser.Update(user);
+                                    autorizationIn = result.Item1;
+                                    user = result.Item2;
+                                }
+                                else if (numberMenu.Equals("0"))
+                                {
+                                    break;
+                                }
                             }
-                            else if (numberMenu.Equals("0"))
+                            else
                             {
-                                break;
+
+                                PlatformController ControllerUser = new PlatformController();
+                                (bool, User?) result = ControllerUser.Login();
+                                autorizationIn = result.Item1;
+                                user = result.Item2;
+
                             }
+
                         }
                     }
                     else if (numberMenu.Equals("3"))
                     {
+                        Console.Clear();
                         while (true)
                         {
+                            Console.Clear();
                             Console.WriteLine("Статистика по играм");
                             Console.WriteLine("1 крестики нолики");
                             Console.WriteLine("еще игра");
@@ -90,26 +115,40 @@ namespace Core.Menu
                 }
                 else if (autorizationIn)
                 {
+                    Console.Clear();
                     while (true)
                     {
+                        Console.Clear();
                         Console.WriteLine("Список доступных меню:");
-                        Console.WriteLine("1 Просмотр статистики");
-                        Console.WriteLine("2 Игра Крестики Нолики");
-                        Console.WriteLine("3 Игра Не выбрал");
+                        Console.WriteLine("1 Изменение аккаунта");
+                        Console.WriteLine("2 Просмотр статистики");
+                        Console.WriteLine("3 Игра Крестики Нолики");
+                        Console.WriteLine("4 Игра Не выбрал");
                         Console.WriteLine("0 Выход из Аккаунта");
                         Console.WriteLine("Введите номер меню");
                         numberMenu = Console.ReadLine();
                         if (numberMenu.Equals("1"))
                         {
-                            // запрос на статистику
+
+                            PlatformController ControllerUser = new PlatformController();
+                            (bool, User?) result = ControllerUser.Update(user);
+                            autorizationIn = result.Item1;
+                            user = result.Item2;
 
                         }
                         else if (numberMenu.Equals("2"))
                         {
-                            // Вызов игры крестики нолики
+
+                            // просмотр статистики
                         }
                         else if (numberMenu.Equals("3"))
                         {
+
+                            // Вызов игры крестики нолики
+                        }
+                        else if (numberMenu.Equals("4"))
+                        {
+
                             // вызов игры 
                         }
                         else if (numberMenu.Equals("0"))

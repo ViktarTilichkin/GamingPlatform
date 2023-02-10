@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Security.Principal;
 using Core.Menu;
+using Core.Models;
 
 namespace GamingDesktopApp;
 internal class Program
 {
     static void Main(string[] args)
     {
-        bool autorizationIn = true;
+        bool autorizationIn = false;
         string? mune = "";
-        int? userId = null;
-        Menu.MenuStart(autorizationIn, mune, userId);
+        User? user = null;
+        Menu.MenuStart(autorizationIn, mune, user);
     }
 }

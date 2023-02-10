@@ -12,44 +12,43 @@ namespace Core.Services
     public class UserService
     {
         private UserRepository User = new UserRepository();
-        public int? Login(string login, string password)
+        public User? Login(string login, string password)
         {
             User user = User.GetOne(login);
             if (user.Password.Equals(password))
             {
-                return user.Id;
+                return user;
             }
-
             return null;
         }
-        public int? Create(int id, string name, string password)
+        public User? Create(int id, string name, string password)
         {
             User newUser = new User(id, name, password);
             newUser = User.Create(newUser);
             if (newUser != null)
             {
-                return newUser.Id;
+                return newUser;
             }
             Console.WriteLine("Error");
             return null;
         }
-        public int? Update(int id, string name, string password)
+        public User? Update(int id, string name, string password)
         {
             User newUser = new User(id, name, password);
-            newUser = User.Create(newUser);
+            newUser = User.Update(newUser);
             if (newUser != null)
             {
-                return newUser.Id;
+                return newUser;
             }
             return null;
         }
-        public int? Delete(int id, string name, string password) 
+        public User? Delete(int id, string name, string password)
         {
             User newUser = new User(id, name, password);
-            newUser = User.Create(newUser);
+            newUser = User.Delete(newUser);
             if (newUser != null)
             {
-                return newUser.Id;
+                return newUser;
             }
             return null;
         }

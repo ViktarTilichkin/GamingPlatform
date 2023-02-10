@@ -4,21 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Services;
+using Core.Models;
 
 namespace Core.Controller
 {
     public class PlatformController
     {
         private UserService servicUser = new UserService();
-        public (bool, int) Login()
+        public (bool, User?) Login()
         {
-            return (true, 0);
+            return (true, null);
         }
-        public (bool, int) Create()
+        public (bool, User?) Create()
         {
             Console.WriteLine("Hello! Hello! Do you want to create a user? Y/N");
             string? menu = Console.ReadLine();
-            if (!string.IsNullOrEmpty(menu) && menu.Equals("Y"))
+            if (!string.IsNullOrEmpty(menu) && menu.ToUpper().Equals("Y"))
             {
                 Console.WriteLine("Great!");
                 Console.Write("Enter Name: ");
@@ -28,20 +29,65 @@ namespace Core.Controller
                 if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(password))
                 {
                     int id = 10;
-                    servicUser.Create(id, name, password);
-                    Console.WriteLine("Succes");
-                    return (true, id);
+                    User? userID = servicUser.Create(id, name, password);
+                    if (userID != null)
+                    {
+                        Console.WriteLine("Succes");
+                        return (true, userID);
+                    }
                 }
             }
-            return (false, 0);
+            return (false, null);
         }
-        public (bool, int) Update()
+        public (bool, User?) Update(User? user)
         {
-            return (true, 0);
+            if (user == null)
+            {
+                return (false, null);
+            }
+            Console.WriteLine("Hello! Hello! Do you want to edit your account? Y/N");
+            string? menu = Console.ReadLine();
+            if (!string.IsNullOrEmpty(menu) && menu.ToUpper().Equals("Y"))
+            {
+                Console.WriteLine("Great!");
+                Console.Write("Enter new Password: ");
+                string? password = Console.ReadLine();
+                if (!string.IsNullOrEmpty(password))
+                {
+                    int id = 10;
+
+                    User? idUser = servicUser.Update(user.Id, user.Name, password);
+                    if (idUser != null)
+                    {
+                        Console.WriteLine("Succes");
+                        return (true, idUser);
+                    }
+                }
+            }
+            return (true, null);
         }
-        public (bool, int) Delete()
+        public (bool, User?) Delete(User? user)
         {
-            return (true, 0);
+            if (user == null)
+            {
+                return (false, null);
+            }
+            Console.WriteLine("Hello!  Do you want to delete your account? Y/N");
+            string? menu = Console.ReadLine();
+            if (menu.ToUpper().Equals("Y"))
+            {
+                Console.WriteLine("Great!");
+                int id = 10;
+                User? idUser = servicUser.Delete(user.Id, user.Name, user.Password);
+                if (idUser != null)
+                {
+                    Console.WriteLine("Succes");
+                    return (false, null);
+                }
+            }
+            return (false, null);
         }
+
     }
 }
+
