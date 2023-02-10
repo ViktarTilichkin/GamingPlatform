@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Controller;
 
 namespace Core.Menu
 {
     public static class Menu
     {
-
-        public static void MenuStart(bool autorizationIn, string? numberMenu)
+        public static void MenuStart(bool autorizationIn, string? numberMenu, int? userId)
         {
             while (true)
             {
@@ -22,11 +22,7 @@ namespace Core.Menu
                     Console.WriteLine("3 Игры");
                     Console.WriteLine("0 Выход из программы");
                     Console.WriteLine("Введите номер меню");
-                    do
-                    {
-                        numberMenu = Console.ReadLine();
-                    }
-                    while (numberMenu != null);
+                    numberMenu = Console.ReadLine();
                     if (numberMenu.Equals("1"))
                     {
                         while (true)
@@ -37,8 +33,11 @@ namespace Core.Menu
                             numberMenu = Console.ReadLine();
                             if (numberMenu.Equals("1"))
                             {
-                                autorizationIn = true;
-                                // Console.WriteLine(data.Read());
+                                
+                                PlatformController ControllerUser = new PlatformController();
+                                (bool,int?) result = ControllerUser.Create();
+                                autorizationIn = result.Item1;
+                                userId = result.Item2;
                             }
                             else if (numberMenu.Equals("0"))
                             {

@@ -9,6 +9,7 @@ internal class Program
     {
         bool autorizationIn = true;
         string? mune = "";
-        Menu.MenuStart(autorizationIn, mune);
+        int? userId = null;
+        Menu.MenuStart(autorizationIn, mune, userId);
     }
 }

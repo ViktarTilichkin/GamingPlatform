@@ -5,20 +5,52 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Core.Services
 {
-    internal class UserService
+    public class UserService
     {
-        UserRepository User = new UserRepository();
-        public User Login(string login, string password)
+        private UserRepository User = new UserRepository();
+        public int? Login(string login, string password)
         {
             User user = User.GetOne(login);
             if (user.Password.Equals(password))
             {
-                return user;
+                return user.Id;
             }
 
+            return null;
+        }
+        public int? Create(int id, string name, string password)
+        {
+            User newUser = new User(id, name, password);
+            newUser = User.Create(newUser);
+            if (newUser != null)
+            {
+                return newUser.Id;
+            }
+            Console.WriteLine("Error");
+            return null;
+        }
+        public int? Update(int id, string name, string password)
+        {
+            User newUser = new User(id, name, password);
+            newUser = User.Create(newUser);
+            if (newUser != null)
+            {
+                return newUser.Id;
+            }
+            return null;
+        }
+        public int? Delete(int id, string name, string password) 
+        {
+            User newUser = new User(id, name, password);
+            newUser = User.Create(newUser);
+            if (newUser != null)
+            {
+                return newUser.Id;
+            }
             return null;
         }
     }

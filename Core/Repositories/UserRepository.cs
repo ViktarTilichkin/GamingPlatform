@@ -10,9 +10,73 @@ namespace Core.Repositories
 {
     public class UserRepository
     {
-        
+
         private string path = AppDomain.CurrentDomain.BaseDirectory;
-        public List<User> GetAll()
+
+
+        public User GetOne(string login)
+        {
+            List<User> userList = GetAll();
+            for (int i = 0; i < userList.Count; i++)
+            {
+                if (userList[i].Name.Equals(login))
+                {
+                    return userList[i];
+                }
+            }
+            return null;
+        }
+        public User Create(User newuser)
+        {
+            List<User> userList = GetAll();
+            for (int i = 0; i < userList.Count; i++)
+            {
+                if (userList[i].Name.Equals(newuser.Name))
+                {
+                    return null;
+                }
+            }
+            userList.Add(newuser);
+            if (UpdateFile(userList))
+            {
+                return newuser;
+            }
+            return null;
+        }
+        public User Update(User userUpdate)
+        {
+            List<User> userList = GetAll();
+            for (int i = 0; i < userList.Count; i++)
+            {
+                if (userList[i].Name.Equals(userUpdate.Name))
+                {
+                    userList[i] = userUpdate;
+
+                }
+            }
+            if (UpdateFile(userList))
+            {
+                return userUpdate;
+            }
+            return null;
+        }
+        public User Delete(User delUser)
+        {
+            List<User?> userList = GetAll();
+            for (int i = 0; i < userList.Count; i++)
+            {
+                if (userList[i].Name.Equals(delUser.Name))
+                {
+                    userList[i] = null;
+                }
+            }
+            if (UpdateFile(userList))
+            {
+                return delUser;
+            }
+            return null;
+        }
+        private List<User> GetAll()
         {
             List<User> users = new List<User>();
             var serializeoptions = new JsonSerializerOptions
@@ -38,94 +102,31 @@ namespace Core.Repositories
             }
             return null;
         }
-        public User GetOne(string login)
+        private bool UpdateFile(List<User?> userList)
         {
-            List<User> userList = GetAll();
-            for (int i = 0; i < userList.Count; i++)
+            try
             {
-                if (userList[i].Name.Equals(login))
+                var serializeoptions = new JsonSerializerOptions
                 {
-                    return userList[i];
-                }
-            }
-            return null;
-        }
-        public User Create(User newuser)
-        {
-            List<User> userList = GetAll();
-            for (int i = 0; i < userList.Count; i++)
-            {
-                if (userList[i].Name.Equals(newuser.Name))
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                };
+                StreamWriter sw1 = new StreamWriter($"{path}users.txt");
+                for (int i = 0; i < userList.Count; i++)
                 {
-                    return null;
+                    if (userList[i] != null)
+                    {
+                        string json = JsonSerializer.Serialize<User>(userList[i], serializeoptions);
+                        sw1.WriteLine(json);
+                    }
                 }
+                sw1.Close();
+                return true;
             }
-            userList.Add(newuser);
-            var serializeoptions = new JsonSerializerOptions
+            catch(Exception ex)
             {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            };
-            StreamWriter sw1 = new StreamWriter($"{path}users.txt");
-            for (int i = 0; i < userList.Count; i++)
-            {
-                string json = JsonSerializer.Serialize<User>(userList[i], serializeoptions);
-                sw1.WriteLine(json);
+                Console.WriteLine(ex);
+                return false;
             }
-            sw1.Close();
-            return newuser;
-        }
-        public User Update(User user)
-        {
-            List<User> userList = GetAll();
-            for (int i = 0; i < userList.Count; i++)
-            {
-                if (userList[i].Name.Equals(user.Name))
-                {
-                    userList[i] = user;
-
-                }
-            }
-            var serializeoptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            };
-            StreamWriter sw1 = new StreamWriter($"{path}users.txt");
-            for (int i = 0; i < userList.Count; i++)
-            {
-                if (userList[i] != null)
-                {
-                    string json = JsonSerializer.Serialize<User>(userList[i], serializeoptions);
-                    sw1.WriteLine(json);
-                }
-            }
-            sw1.Close();
-            return null;
-        }
-        public User Delete(User delUser)
-        {
-            List<User?> userList = GetAll();
-            for (int i = 0; i < userList.Count; i++)
-            {
-                if (userList[i].Name.Equals(delUser.Name))
-                {
-                    userList[i] = null;
-                }
-            }
-            var serializeoptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            };
-            StreamWriter sw1 = new StreamWriter($"{path}users.txt");
-            for (int i = 0; i < userList.Count; i++)
-            {
-                if (userList[i] != null)
-                {
-                    string json = JsonSerializer.Serialize<User>(userList[i], serializeoptions);
-                    sw1.WriteLine(json);
-                }
-            }
-            sw1.Close();
-            return delUser;
         }
     }
 }
