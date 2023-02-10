@@ -13,7 +13,26 @@ namespace Core.Controller
         private UserService servicUser = new UserService();
         public (bool, User?) Login()
         {
-            return (true, null);
+            Console.WriteLine("Hello! Do you want to login ? Y/N");
+            string? menu = Console.ReadLine();
+            if (!string.IsNullOrEmpty(menu) && menu.ToUpper().Equals("Y"))
+            {
+                Console.WriteLine("Great!");
+                Console.Write("Enter Name: ");
+                string? name = Console.ReadLine();
+                Console.Write("Enter Password: ");
+                string? password = Console.ReadLine();
+                if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(password))
+                {
+                    User? userID = servicUser.Login(name, password);
+                    if (userID != null)
+                    {
+                        Console.WriteLine("Succes");
+                        return (true, userID);
+                    }
+                }
+            }
+            return (false, null);
         }
         public (bool, User?) Create()
         {

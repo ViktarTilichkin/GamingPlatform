@@ -55,36 +55,15 @@ namespace Core.Menu
                         Console.Clear();
                         while (true)
                         {
-                            if (autorizationIn)
+                            Console.Clear();
+                            PlatformController ControllerUser = new PlatformController();
+                            (bool, User?) result = ControllerUser.Login();
+                            autorizationIn = result.Item1;
+                            user = result.Item2;
+                            if(autorizationIn)
                             {
-                                Console.Clear();
-                                Console.WriteLine("Меню авторизации");
-                                Console.WriteLine("1 изменение аккаунта");
-                                Console.WriteLine("0 Выход");
-                                Console.WriteLine("Введите номер меню");
-                                numberMenu = Console.ReadLine();
-                                if (numberMenu.Equals("1"))
-                                {
-                                    PlatformController ControllerUser = new PlatformController();
-                                    (bool, User?) result = ControllerUser.Update(user);
-                                    autorizationIn = result.Item1;
-                                    user = result.Item2;
-                                }
-                                else if (numberMenu.Equals("0"))
-                                {
-                                    break;
-                                }
+                                break;
                             }
-                            else
-                            {
-
-                                PlatformController ControllerUser = new PlatformController();
-                                (bool, User?) result = ControllerUser.Login();
-                                autorizationIn = result.Item1;
-                                user = result.Item2;
-
-                            }
-
                         }
                     }
                     else if (numberMenu.Equals("3"))
