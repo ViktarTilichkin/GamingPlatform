@@ -60,7 +60,7 @@ namespace Core.Menu
                             (bool, User?) result = ControllerUser.Login();
                             autorizationIn = result.Item1;
                             user = result.Item2;
-                            if(autorizationIn)
+                            if(!autorizationIn)
                             {
                                 break;
                             }
@@ -98,6 +98,7 @@ namespace Core.Menu
                     while (true)
                     {
                         Console.Clear();
+                        Console.WriteLine($"Hello {user.Name}");
                         Console.WriteLine("Список доступных меню:");
                         Console.WriteLine("1 Изменение аккаунта");
                         Console.WriteLine("2 Просмотр статистики");
@@ -108,11 +109,25 @@ namespace Core.Menu
                         numberMenu = Console.ReadLine();
                         if (numberMenu.Equals("1"))
                         {
-
-                            PlatformController ControllerUser = new PlatformController();
-                            (bool, User?) result = ControllerUser.Update(user);
-                            autorizationIn = result.Item1;
-                            user = result.Item2;
+                            Console.Clear();
+                            Console.WriteLine("1 Изменение пароля");
+                            Console.WriteLine("2 Удаление аккаунта");
+                            Console.WriteLine("0 выход");
+                            numberMenu = Console.ReadLine();
+                            if (numberMenu.Equals("1"))
+                            {
+                                PlatformController ControllerUser = new PlatformController();
+                                (bool, User?) result = ControllerUser.Update(user);
+                                autorizationIn = result.Item1;
+                                user = result.Item2;
+                            }
+                            else if(numberMenu.Equals("2"))
+                            {
+                                PlatformController ControllerUser = new PlatformController();
+                                (bool, User?) result = ControllerUser.Delete(user);
+                                autorizationIn = result.Item1;
+                                user = result.Item2;
+                            }
 
                         }
                         else if (numberMenu.Equals("2"))

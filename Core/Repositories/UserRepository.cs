@@ -10,6 +10,11 @@ namespace Core.Repositories
 {
     public class UserRepository
     {
+        public UserRepository()
+        {
+            StreamWriter sw1 = new StreamWriter($"{path}users.txt", true);
+            sw1.Close();
+        }
 
         private string path = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -122,7 +127,7 @@ namespace Core.Repositories
                 sw1.Close();
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
                 return false;
