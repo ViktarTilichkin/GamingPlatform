@@ -2,12 +2,18 @@
 
 namespace Core.Models
 {
-    public class User
+    public class User : ICloneable
     {
-        
-        public int Id { get; }
+
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
+
+        public User(string name, string password)
+        {
+            Name = name;
+            Password = password;
+        }
         [JsonConstructor]
         public User(int id, string name, string password)
         {
@@ -20,5 +26,7 @@ namespace Core.Models
         {
             return $"{Id}  {Name} {Password}";
         }
+
+        public object Clone() => new User(Id, Name, Password);
     }
 }

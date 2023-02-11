@@ -48,8 +48,7 @@ namespace Core.Controller
                 string? password = Console.ReadLine();
                 if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(password))
                 {
-                    int id = 10;
-                    User? userID = servicUser.Create(id, name, password);
+                    User? userID = servicUser.Create(name, password);
                     if (userID != null)
                     {
                         Console.WriteLine("Succes");
@@ -74,13 +73,12 @@ namespace Core.Controller
                 string? password = Console.ReadLine();
                 if (!string.IsNullOrEmpty(password))
                 {
-                    int id = 10;
-
-                    User? idUser = servicUser.Update(user.Id, user.Name, password);
-                    if (idUser != null)
+                    User cloneUser = user.Clone() as User;
+                    cloneUser = servicUser.Update(cloneUser, password);
+                    if (cloneUser != null)
                     {
                         Console.WriteLine("Succes");
-                        return (true, idUser);
+                        return (true, cloneUser);
                     }
                 }
             }
@@ -97,9 +95,7 @@ namespace Core.Controller
             if (menu.ToUpper().Equals("Y"))
             {
                 Console.WriteLine("Great!");
-                int id = 10;
-                User? idUser = servicUser.Delete(user.Id, user.Name, user.Password);
-                if (idUser != null)
+                if (servicUser.Delete(user))
                 {
                     Console.WriteLine("Succes");
                     return (false, null);

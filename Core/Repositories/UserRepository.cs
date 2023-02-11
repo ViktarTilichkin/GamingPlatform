@@ -10,16 +10,13 @@ namespace Core.Repositories
 {
     public class UserRepository
     {
+        private string path = AppDomain.CurrentDomain.BaseDirectory;
         public UserRepository()
         {
-            StreamWriter sw1 = new StreamWriter($"{path}users.txt", true);
-            sw1.Close();
+            //StreamWriter sw1 = new StreamWriter($"{path}users.txt", true);
+            //sw1.Close();
         }
-
-        private string path = AppDomain.CurrentDomain.BaseDirectory;
-
-
-        public User GetOne(string login)
+        public User GetByName(string login)
         {
             List<User> userList = GetAll();
             for (int i = 0; i < userList.Count; i++)
@@ -31,55 +28,49 @@ namespace Core.Repositories
             }
             return null;
         }
-        public User Create(User newuser)
+        public bool Exist(string name)
         {
             List<User> userList = GetAll();
             for (int i = 0; i < userList.Count; i++)
             {
-                if (userList[i].Name.Equals(newuser.Name))
+                if (userList[i].Name.Equals(name))
                 {
-                    return null;
+                    return true;
                 }
             }
-            userList.Add(newuser);
-            if (UpdateFile(userList))
-            {
-                return newuser;
-            }
-            return null;
+            return false;
         }
-        public User Update(User userUpdate)
+        public User Create(User user)
         {
             List<User> userList = GetAll();
-            for (int i = 0; i < userList.Count; i++)
-            {
-                if (userList[i].Name.Equals(userUpdate.Name))
-                {
-                    userList[i] = userUpdate;
-
-                }
-            }
-            if (UpdateFile(userList))
-            {
-                return userUpdate;
-            }
-            return null;
+            user.Id = GetNextId();
+            userList.Add(user);
+            UpdateFile(userList);
+            return  user;
         }
-        public User Delete(User delUser)
+        public User Update(User user)
+        {
+            List<User> userList = GetAll();
+            int index = userList.FindIndex(x => x.Id == user.Id);
+            if (index < 0)
+            {
+                return null;
+            }
+            userList[index] = user;
+            UpdateFile(userList);
+            return user;
+        }
+        public void Delete(int idUser)
         {
             List<User?> userList = GetAll();
-            for (int i = 0; i < userList.Count; i++)
-            {
-                if (userList[i].Name.Equals(delUser.Name))
-                {
-                    userList[i] = null;
-                }
-            }
-            if (UpdateFile(userList))
-            {
-                return delUser;
-            }
-            return null;
+            userList.RemoveAll(x => x.Id == idUser);
+            UpdateFile(userList);
+        }
+        private int GetNextId()
+        {
+            List<User?> userList = GetAll();
+            int lastID = userList.LastOrDefault()?.Id ?? 0;
+            return ++lastID;
         }
         private List<User> GetAll()
         {
@@ -101,13 +92,16 @@ namespace Core.Repositories
                 sr1.Close();
                 return users;
             }
+            catch (FileNotFoundException)
+            {
+                return users;
+            }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                throw ex;
             }
-            return null;
         }
-        private bool UpdateFile(List<User?> userList)
+        private void UpdateFile(List<User?> userList)
         {
             try
             {
@@ -125,13 +119,12 @@ namespace Core.Repositories
                     }
                 }
                 sw1.Close();
-                return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                return false;
+               throw ex;
             }
         }
+
     }
 }

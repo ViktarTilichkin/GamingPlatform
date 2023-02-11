@@ -9,8 +9,8 @@ internal class Program
     static void Main(string[] args)
     {
         bool autorizationIn = false;
-        string? mune = "";
+        string? menu = "";
         User? user = null;
-        Menu.MenuStart(autorizationIn, mune, user);
+        Menu.MenuStart(autorizationIn, menu, user);
     }
 }

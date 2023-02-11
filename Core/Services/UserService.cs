@@ -11,46 +11,63 @@ namespace Core.Services
 {
     public class UserService
     {
-        private UserRepository User = new UserRepository();
+        private readonly UserRepository _UserRepsitory = new UserRepository();
         public User? Login(string login, string password)
         {
-            User user = User.GetOne(login);
-            if (user.Password.Equals(password))
+            User? user = _UserRepsitory.GetByName(login);
+            if (user != null && user.Password.Equals(password))
             {
                 return user;
             }
             return null;
         }
-        public User? Create(int id, string name, string password)
+        public User? Create(string name, string password)
         {
-            User newUser = new User(id, name, password);
-            newUser = User.Create(newUser);
-            if (newUser != null)
+            try
             {
-                return newUser;
+                if (!_UserRepsitory.Exist(name))
+                {
+                    User newUser = new User(name, password);
+                    return _UserRepsitory.Create(newUser);
+
+                }
+                Console.WriteLine("Error");
+                return null;
             }
-            Console.WriteLine("Error");
-            return null;
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
         }
-        public User? Update(int id, string name, string password)
+        public User? Update(User user, string password)
         {
-            User newUser = new User(id, name, password);
-            newUser = User.Update(newUser);
-            if (newUser != null)
+
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            try
             {
-                return newUser;
+                user.Password = password;
+                return _UserRepsitory.Update(user);
             }
-            return null;
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
         }
-        public User? Delete(int id, string name, string password)
+        public bool Delete(User user)
         {
-            User newUser = new User(id, name, password);
-            newUser = User.Delete(newUser);
-            if (newUser != null)
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            try
             {
-                return newUser;
+                _UserRepsitory.Delete(user.Id);
+                return true;
             }
-            return null;
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
         }
     }
 }

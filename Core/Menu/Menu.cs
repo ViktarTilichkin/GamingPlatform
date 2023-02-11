@@ -60,10 +60,7 @@ namespace Core.Menu
                             (bool, User?) result = ControllerUser.Login();
                             autorizationIn = result.Item1;
                             user = result.Item2;
-                            if(!autorizationIn)
-                            {
-                                break;
-                            }
+                            break;
                         }
                     }
                     else if (numberMenu.Equals("3"))
@@ -121,12 +118,13 @@ namespace Core.Menu
                                 autorizationIn = result.Item1;
                                 user = result.Item2;
                             }
-                            else if(numberMenu.Equals("2"))
+                            else if (numberMenu.Equals("2"))
                             {
                                 PlatformController ControllerUser = new PlatformController();
                                 (bool, User?) result = ControllerUser.Delete(user);
                                 autorizationIn = result.Item1;
                                 user = result.Item2;
+                                break;
                             }
 
                         }
