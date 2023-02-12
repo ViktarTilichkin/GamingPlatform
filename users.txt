@@ -1,9 +1,0 @@
-{"id":3,"name":"poluadmin2","password":"1234"}
-{"id":11,"name":"poluadmin","password":"1321545215"}
-{"id":12,"name":"aligator","password":"1234"}
-{"id":13,"name":"flogi","password":"1234"}
-{"id":14,"name":"greatname","password":"hellooo"}
-{"id":15,"name":"Nasty","password":"1234nasty"}
-{"id":16,"name":"Viktor","password":"1234"}
-{"id":17,"name":"dima","password":"1234"}
-{"id":18,"name":"dimas","password":"1234"}

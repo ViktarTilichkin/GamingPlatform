@@ -10,7 +10,7 @@ namespace Core.Repositories
 {
     public class UserRepository : BaseRepository<User>
     {
-        protected override string path { get; } = AppDomain.CurrentDomain.BaseDirectory;
+        protected override string path { get; } = AppDomain.CurrentDomain.BaseDirectory+"users.txt";
         public User GetByName(string login)
         {
             List<User> userList = GetAll();
@@ -96,30 +96,30 @@ namespace Core.Repositories
         //        throw ex;
         //    }
         //}
-        private void UpdateFile(List<User?> userList)
-        {
-            try
-            {
-                var serializeoptions = new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                };
-                StreamWriter sw1 = new StreamWriter($"{path}users.txt");
-                for (int i = 0; i < userList.Count; i++)
-                {
-                    if (userList[i] != null)
-                    {
-                        string json = JsonSerializer.Serialize<User>(userList[i], serializeoptions);
-                        sw1.WriteLine(json);
-                    }
-                }
-                sw1.Close();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //private void UpdateFile(List<User?> userList)
+        //{
+        //    try
+        //    {
+        //        var serializeoptions = new JsonSerializerOptions
+        //        {
+        //            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        //        };
+        //        StreamWriter sw1 = new StreamWriter($"{path}users.txt");
+        //        for (int i = 0; i < userList.Count; i++)
+        //        {
+        //            if (userList[i] != null)
+        //            {
+        //                string json = JsonSerializer.Serialize<User>(userList[i], serializeoptions);
+        //                sw1.WriteLine(json);
+        //            }
+        //        }
+        //        sw1.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
     }
 }

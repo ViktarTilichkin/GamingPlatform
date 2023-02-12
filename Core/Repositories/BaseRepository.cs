@@ -20,7 +20,7 @@ namespace Core.Repositories
             };
             try
             {
-                using StreamReader sr1 = new StreamReader($"{path}users.txt");
+                using StreamReader sr1 = new StreamReader(path);
                 string line = sr1.ReadLine();
                 while (line != null)
                 {
@@ -34,6 +34,30 @@ namespace Core.Repositories
             catch (FileNotFoundException)
             {
                 return data;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void UpdateFile(List<T> dataList)
+        {
+            try
+            {
+                var serializeoptions = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                };
+                StreamWriter sw1 = new StreamWriter(path);
+                for (int i = 0; i < dataList.Count; i++)
+                {
+                    if (dataList[i] != null)
+                    {
+                        string json = JsonSerializer.Serialize<T>(dataList[i], serializeoptions);
+                        sw1.WriteLine(json);
+                    }
+                }
+                sw1.Close();
             }
             catch (Exception ex)
             {
