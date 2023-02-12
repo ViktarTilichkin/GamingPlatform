@@ -11,16 +11,16 @@ namespace Core.Repositories
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public Liset<UserStats> GetAll()
-        {
-            try
-            {
+        //public Liset<UserStats> GetAll()
+        //{
+        //    try
+        //    {
 
-            }
-            catch 
-            { 
-            }
+        //    }
+        //    catch 
+        //    { 
+        //    }
 
-        }
+        //}
     }
 }

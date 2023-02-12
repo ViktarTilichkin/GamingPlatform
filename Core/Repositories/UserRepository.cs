@@ -8,14 +8,9 @@ using System.Text.Json;
 
 namespace Core.Repositories
 {
-    public class UserRepository
+    public class UserRepository : BaseRepository<User>
     {
-        private string path = AppDomain.CurrentDomain.BaseDirectory;
-        public UserRepository()
-        {
-            //StreamWriter sw1 = new StreamWriter($"{path}users.txt", true);
-            //sw1.Close();
-        }
+        protected override string path { get; } = AppDomain.CurrentDomain.BaseDirectory;
         public User GetByName(string login)
         {
             List<User> userList = GetAll();
@@ -46,7 +41,7 @@ namespace Core.Repositories
             user.Id = GetNextId();
             userList.Add(user);
             UpdateFile(userList);
-            return  user;
+            return user;
         }
         public User Update(User user)
         {
@@ -62,45 +57,45 @@ namespace Core.Repositories
         }
         public void Delete(int idUser)
         {
-            List<User?> userList = GetAll();
+            List<User> userList = GetAll();
             userList.RemoveAll(x => x.Id == idUser);
             UpdateFile(userList);
         }
         private int GetNextId()
         {
-            List<User?> userList = GetAll();
+            List<User> userList = GetAll();
             int lastID = userList.LastOrDefault()?.Id ?? 0;
             return ++lastID;
         }
-        private List<User> GetAll()
-        {
-            List<User> users = new List<User>();
-            var serializeoptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            };
-            try
-            {
-                using StreamReader sr1 = new StreamReader($"{path}users.txt");
-                string line = sr1.ReadLine();
-                while (line != null)
-                {
-                    User user = JsonSerializer.Deserialize<User>(line, serializeoptions);
-                    users.Add(user);
-                    line = sr1.ReadLine();
-                }
-                sr1.Close();
-                return users;
-            }
-            catch (FileNotFoundException)
-            {
-                return users;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //private List<User> GetAll()
+        //{
+        //    List<User> users = new List<User>();
+        //    var serializeoptions = new JsonSerializerOptions
+        //    {
+        //        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        //    };
+        //    try
+        //    {
+        //        using StreamReader sr1 = new StreamReader($"{path}users.txt");
+        //        string line = sr1.ReadLine();
+        //        while (line != null)
+        //        {
+        //            User user = JsonSerializer.Deserialize<User>(line, serializeoptions);
+        //            users.Add(user);
+        //            line = sr1.ReadLine();
+        //        }
+        //        sr1.Close();
+        //        return users;
+        //    }
+        //    catch (FileNotFoundException)
+        //    {
+        //        return users;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         private void UpdateFile(List<User?> userList)
         {
             try
@@ -122,7 +117,7 @@ namespace Core.Repositories
             }
             catch (Exception ex)
             {
-               throw ex;
+                throw ex;
             }
         }
 
