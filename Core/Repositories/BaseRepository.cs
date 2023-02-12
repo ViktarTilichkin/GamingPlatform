@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace Core.Repositories
 {
-    internal abstract class BaseRepository<T>
+    public abstract class BaseRepository<T>
     {
         protected abstract string path { get; }
-        //методы гет алл апдейт экзист
         public List<T> GetAll()
         {
             List<T> data = new List<T>();

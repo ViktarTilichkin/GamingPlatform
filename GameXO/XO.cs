@@ -1,5 +1,5 @@
 ﻿namespace GameXO;
-public class XOGAMES
+public class XO
 {
     private char[,] _field = new char[3, 3] {
                 { ' ', ' ', ' ' },
