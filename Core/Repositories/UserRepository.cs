@@ -10,7 +10,7 @@ namespace Core.Repositories
 {
     public class UserRepository : BaseRepository<User>
     {
-        protected override string path { get; } = AppDomain.CurrentDomain.BaseDirectory+"users.txt";
+        protected override string path { get; } = AppDomain.CurrentDomain.BaseDirectory + "users.txt";
         public User GetByName(string login)
         {
             List<User> userList = GetAll();
@@ -67,59 +67,5 @@ namespace Core.Repositories
             int lastID = userList.LastOrDefault()?.Id ?? 0;
             return ++lastID;
         }
-        //private List<User> GetAll()
-        //{
-        //    List<User> users = new List<User>();
-        //    var serializeoptions = new JsonSerializerOptions
-        //    {
-        //        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        //    };
-        //    try
-        //    {
-        //        using StreamReader sr1 = new StreamReader($"{path}users.txt");
-        //        string line = sr1.ReadLine();
-        //        while (line != null)
-        //        {
-        //            User user = JsonSerializer.Deserialize<User>(line, serializeoptions);
-        //            users.Add(user);
-        //            line = sr1.ReadLine();
-        //        }
-        //        sr1.Close();
-        //        return users;
-        //    }
-        //    catch (FileNotFoundException)
-        //    {
-        //        return users;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-        //private void UpdateFile(List<User?> userList)
-        //{
-        //    try
-        //    {
-        //        var serializeoptions = new JsonSerializerOptions
-        //        {
-        //            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        //        };
-        //        StreamWriter sw1 = new StreamWriter($"{path}users.txt");
-        //        for (int i = 0; i < userList.Count; i++)
-        //        {
-        //            if (userList[i] != null)
-        //            {
-        //                string json = JsonSerializer.Serialize<User>(userList[i], serializeoptions);
-        //                sw1.WriteLine(json);
-        //            }
-        //        }
-        //        sw1.Close();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-
     }
 }

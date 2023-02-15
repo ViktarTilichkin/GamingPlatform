@@ -15,8 +15,7 @@ internal class Program
         string? menu = "";
         User? user = null;
         Menu.MenuStart(autorizationIn, menu, user);
-        //XO start = new XO();
-        //start.Start();
-
+        XO start = new XO();
+        start.Start();
     }
 }

@@ -1,6 +1,10 @@
-﻿namespace Games.Core
+﻿using System.Reflection.Metadata;
+using Core.Models;
+using Core.Repositories;
+
+namespace Games.Core
 {
-    public class Class1
+    public class GamesCore
     {
         // отсюда будем вызывать
 
@@ -13,11 +17,13 @@
         // - статистика по всем играм ??
 
         // интрфейс игры
-        // - старт 
-        // - старт из сохранения если такое есть 
-        // - количество игроков 
+        // - старт +
+        // - старт из сохранения если такое есть +
+        // - количество игроков +
+        public User user { get; private set; } 
+        public UserStatsRepository Stats = new UserStatsRepository();
 
-        // 
+
 
     }
 }
