@@ -20,10 +20,12 @@ namespace Games.Core
         // - старт +
         // - старт из сохранения если такое есть +
         // - количество игроков +
-        public User user { get; private set; } 
-        public UserStatsRepository Stats = new UserStatsRepository();
+        //public string user { get; private set; } 
+        //public string  Stats = new UserStatsRepository();
 
+        поулчить имя пользователя id
+            поулчить игру 
 
-
+            и вызываем игру
     }
 }

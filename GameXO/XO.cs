@@ -1,13 +1,16 @@
-﻿namespace GameXO;
+﻿using System.Numerics;
+
+namespace GameXO;
 public class XO
 {
     private char[,] _field = new char[3, 3] {
-                { ' ', ' ', ' ' },
-                { ' ', ' ', ' ' },
-                { ' ', ' ', ' ' },
+                { '1', '2', '3' },
+                { '4', '5', '6' },
+                { '7', '8', '9' },
             };
 
     private bool _isXMove = true;
+    private char AiSide = ' ';
 
     private readonly string _coordErrorMessage = "Координаты должны быть: [0, 2]";
 
@@ -15,29 +18,58 @@ public class XO
     {
         Draw();
 
-        int row, col;
+        int row = -1;
+        int col = -1;
         do
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("\n Введите номер ряда: [0, 2]\n (или -1 для выхода): ");
+            Console.Write("\n Введите номер ячейки: \n (или -1 для выхода): ");
             Console.ForegroundColor = ConsoleColor.White;
-            if (!int.TryParse(Console.ReadLine(), out row))
+            if (!int.TryParse(Console.ReadLine(), out int fild))
             {
                 ShowError(_coordErrorMessage);
                 continue;
             }
-            if (row == -1) break;
-
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("\n Введите номер столбца: [0, 2]\n (или -1 для выхода): ");
-            Console.ForegroundColor = ConsoleColor.White;
-            if (!int.TryParse(Console.ReadLine(), out col))
+            if (fild == -1) break;
+            switch (fild)
             {
-                ShowError(_coordErrorMessage);
-                continue;
+                case 1:
+                    row = 0;
+                    col = 0;
+                    break;
+                case 2:
+                    row = 0;
+                    col = 1;
+                    break;
+                case 3:
+                    row = 0;
+                    col = 2;
+                    break;
+                case 4:
+                    row = 1;
+                    col = 0;
+                    break;
+                case 5:
+                    row = 1;
+                    col = 1;
+                    break;
+                case 6:
+                    row = 1;
+                    col = 2;
+                    break;
+                case 7:
+                    row = 2;
+                    col = 0;
+                    break;
+                case 8:
+                    row = 2;
+                    col = 1;
+                    break;
+                case 9:
+                    row = 2;
+                    col = 2;
+                    break;
             }
-            if (col == -1) break;
-
             Update(row, col);
             Draw();
         } while (true);
@@ -54,7 +86,7 @@ public class XO
         if (0 <= row && row <= 2 &&
             0 <= col && col <= 2)
         {
-            if (_field[row, col] == ' ')
+            if (_field[row, col] != 'X' && _field[row, col] != 'O')
             {
                 _field[row, col] = _isXMove ? 'X' : 'O';
 
@@ -134,13 +166,11 @@ public class XO
 
     private void ClearField()
     {
-        for (int row = 0; row < 3; row++)
-        {
-            for (int col = 0; col < 3; col++)
-            {
-                _field[row, col] = ' ';
-            }
-        }
+        _field = new char[3, 3] {
+                { '1', '2', '3' },
+                { '4', '5', '6' },
+                { '7', '8', '9' },
+            };
     }
 
     private void EndGame(string player)
@@ -151,5 +181,73 @@ public class XO
         Console.WriteLine("\n Нажмите любую клавишу для продолжения");
         Console.ReadKey();
         ClearField();
+    }
+
+    private void AIUpdate(string aiSide)
+    {
+
+        if (0 <= row && row <= 2 &&
+            0 <= col && col <= 2)
+        {
+            if (_field[row, col] != 'X' && _field[row, col] != 'O')
+            {
+                _field[row, col] = _isXMove ? 'X' : 'O';
+
+                if (IsWinner('X'))
+                {
+                    Draw();
+                    EndGame("Крестики");
+                }
+                else if (IsWinner('O'))
+                {
+                    Draw();
+                    EndGame("Нолики");
+                }
+
+                _isXMove = !_isXMove;
+            }
+            else
+            {
+                ShowError("По этим координатам уже сделан ход.");
+            }
+        }
+        else
+        {
+            ShowError(_coordErrorMessage);
+            return;
+        }
+    }
+    private bool NextStepWin(char player)
+    {
+        int countRows = 0;
+        int countColumns = 0;
+        int countDiagonals = 0;
+        for (int i = 0; i < _field.Length; i++)
+        {
+            for (int j = 0; j < _field.Length; j++)
+            {
+                if (i == 0)
+                {
+                    if (_field[i, j] == player)
+                    {
+                        countRows++;
+                    }
+
+                }
+            }
+        }
+        return (
+        // Rows
+            (_field[0, 0] == player && _field[0, 1] == player && _field[0, 2] == player) ||
+            (_field[1, 0] == player && _field[1, 1] == player && _field[1, 2] == player) ||
+            (_field[2, 0] == player && _field[2, 1] == player && _field[2, 2] == player) ||
+        // Columns
+            (_field[0, 0] == player && _field[1, 0] == player && _field[2, 0] == player) ||
+            (_field[0, 1] == player && _field[1, 1] == player && _field[2, 1] == player) ||
+            (_field[0, 2] == player && _field[1, 2] == player && _field[2, 2] == player) ||
+        // Diagonals
+            (_field[0, 0] == player && _field[1, 1] == player && _field[2, 2] == player) ||
+            (_field[0, 2] == player && _field[1, 1] == player && _field[2, 0] == player)
+        );
     }
 }

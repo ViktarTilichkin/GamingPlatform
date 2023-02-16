@@ -9,6 +9,7 @@ namespace Games.Core
     internal interface IGames
     {
         public void StartGame();
+        public void StopGame();
         public void Settings();
         public void StartWithSave();
     }
