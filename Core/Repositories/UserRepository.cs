@@ -33,18 +33,11 @@ namespace Core.Repositories
                     return true;
                 }
             }
-            //for (int i = 0; i < userList.Count; i++)
-            //{
-            //    if (userList[i].Name.Equals(name))
-            //    {
-            //        return true;
-            //    }
-            //}
             return false;
         }
         public User Create(User user)
         {
-            var userList = GetAll();
+            List<User> userList = GetAll().ToList();
             user.Id = GetNextId();
             userList.Add(user);
             UpdateFile(userList);
@@ -52,7 +45,7 @@ namespace Core.Repositories
         }
         public User Update(User user)
         {
-            List<User> userList = GetAll();
+            List<User> userList = GetAll().ToList();
             int index = userList.FindIndex(x => x.Id == user.Id);
             if (index < 0)
             {
@@ -64,7 +57,7 @@ namespace Core.Repositories
         }
         public void Delete(int idUser)
         {
-            List<User> userList = GetAll();
+            List<User> userList = GetAll().ToList();
             userList.RemoveAll(x => x.Id == idUser);
             UpdateFile(userList);
         }

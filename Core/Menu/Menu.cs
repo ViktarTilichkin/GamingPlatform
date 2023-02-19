@@ -67,7 +67,9 @@ namespace Core.Menu
                             numberMenu = Console.ReadLine();
                             if (numberMenu.Equals("1"))
                             {
-                                // статистика игре
+                                UserStatsController stats = new UserStatsController();
+                                stats.GetAllStats();
+                                Console.ReadKey();
                             }
                             if (numberMenu.Equals("2"))
                             {

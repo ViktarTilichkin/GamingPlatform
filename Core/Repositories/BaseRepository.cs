@@ -11,31 +11,28 @@ namespace Core.Repositories
     public abstract class BaseRepository<T>
     {
         protected abstract string path { get; }
-        public IEnumerable<T> GetAll()
+        protected IEnumerable<T> GetAll()
         {
-            //List<T> data = new List<T>();
             var serializeoptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             };
-            //try
+            using StreamReader sr1 = new StreamReader(path);
+            //string line = sr1.ReadLine();
+            //while (line != null)
             //{
-                using StreamReader sr1 = new StreamReader(path);
-                //string line = sr1.ReadLine();
-                //while (line != null)
-                //{
-                //    var fild = JsonSerializer.Deserialize<T>(line, serializeoptions);
-                //    data.Add(fild);
-                //    line = sr1.ReadLine();
-                //};
-                for (string line = sr1.ReadLine(); line != null; line = sr1.ReadLine())
-                {
-                    //data.Add(JsonSerializer.Deserialize<T>(line, serializeoptions));
-                    yield return JsonSerializer.Deserialize<T>(line, serializeoptions);
+            //    var fild = JsonSerializer.Deserialize<T>(line, serializeoptions);
+            //    data.Add(fild);
+            //    line = sr1.ReadLine();
+            //};
+            for (string line = sr1.ReadLine(); line != null; line = sr1.ReadLine())
+            {
+                //data.Add(JsonSerializer.Deserialize<T>(line, serializeoptions));
+                yield return JsonSerializer.Deserialize<T>(line, serializeoptions);
 
-                }
-                sr1.Close();
-               // return data;
+            }
+            sr1.Close();
+            // return data;
             //}
             //catch (FileNotFoundException)
             //{
@@ -46,7 +43,7 @@ namespace Core.Repositories
             //    throw ex;
             //}
         }
-        public void UpdateFile(List<T> dataList)
+        protected void UpdateFile(List<T> dataList)
         {
             try
             {
