@@ -15,6 +15,7 @@ namespace Core.Menu
     {
         public static void MenuStart(bool autorizationIn, string? numberMenu, User? user)
         {
+            string gameResult = "";
             while (true)
             {
                 Console.Clear();
@@ -122,13 +123,16 @@ namespace Core.Menu
                         }
                         else if (numberMenu.Equals("2"))
                         {
-                            // просмотр статистики
+                            UserStatsController stats = new UserStatsController();
+                            stats.GetUserStat(user);
+                            Console.ReadKey();
                         }
                         else if (numberMenu.Equals("3"))
                         {
                             GamesCore newGame = new GamesCore(user.Id);
-                            newGame.MenuGames();
-
+                            newGame.MenuGames(out gameResult);
+                            UserStatsController stats = new UserStatsController();
+                            stats.AddUserStat(user, gameResult);
                         }
                         else if (numberMenu.Equals("0"))
                         {

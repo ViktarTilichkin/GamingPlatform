@@ -1,4 +1,6 @@
 ﻿using System.Reflection.Metadata;
+using System.Xml.Linq;
+using GameXO;
 
 namespace Games.Core
 {
@@ -25,7 +27,7 @@ namespace Games.Core
         //    поулчить игру 
 
         //    и вызываем игру
-
+        private XO games = new XO();
         public int IdUser { get; set; }
 
         public GamesCore(int idUser)
@@ -33,9 +35,9 @@ namespace Games.Core
             IdUser = idUser;
         }
 
-        public void MenuGames()
+        public void MenuGames(out string gameResult)
         {
-
+            games.Start(out gameResult);
         }
     }
 }

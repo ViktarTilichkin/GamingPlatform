@@ -14,8 +14,9 @@ public class XO
 
     private readonly string _coordErrorMessage = "Координаты должны быть: [0, 2]";
 
-    public void Start()
+    public void Start(out string result)
     {
+        result = null;
         Draw();
 
         int row = -1;
@@ -70,17 +71,21 @@ public class XO
                     col = 2;
                     break;
             }
-            Update(row, col);
+            if (!Update(row, col, out result))
+            {
+                break;
+            }
             Draw();
         } while (true);
 
     }
 
-    private void Update(int row, int col)
+    private bool Update(int row, int col, out string result)
     {
         if (row == -1 || col == -1)
         {
-            return;
+            result = null;
+            return true;
         }
 
         if (0 <= row && row <= 2 &&
@@ -92,26 +97,34 @@ public class XO
 
                 if (IsWinner('X'))
                 {
+                    result = "XO game, You side X, Win";
                     Draw();
-                    EndGame("Крестики");
+                    return EndGame("Крестики");
+
                 }
                 else if (IsWinner('O'))
                 {
                     Draw();
-                    EndGame("Нолики");
+                    result = "XO game, You side X, Lose";
+                    return EndGame("Нолики");
                 }
 
                 _isXMove = !_isXMove;
+                result = null;
+                return true;
             }
             else
             {
                 ShowError("По этим координатам уже сделан ход.");
+                result = null;
+                return true;
             }
         }
         else
         {
             ShowError(_coordErrorMessage);
-            return;
+            result = null;
+            return true;
         }
     }
 
@@ -173,81 +186,86 @@ public class XO
             };
     }
 
-    private void EndGame(string player)
+    private bool EndGame(string player)
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine(string.Format("\n Победили {0}!", player));
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine("\n Нажмите любую клавишу для продолжения");
+        if (Convert.ToString(Console.ReadLine()).ToLower().Equals("n"))
+        {
+            return false;
+        }
         Console.ReadKey();
         ClearField();
+        return true;
     }
 
-    private void AIUpdate(string aiSide)
-    {
+    //private void AIUpdate(string aiSide)
+    //{
 
-        if (0 <= row && row <= 2 &&
-            0 <= col && col <= 2)
-        {
-            if (_field[row, col] != 'X' && _field[row, col] != 'O')
-            {
-                _field[row, col] = _isXMove ? 'X' : 'O';
+    //    if (0 <= row && row <= 2 &&
+    //        0 <= col && col <= 2)
+    //    {
+    //        if (_field[row, col] != 'X' && _field[row, col] != 'O')
+    //        {
+    //            _field[row, col] = _isXMove ? 'X' : 'O';
 
-                if (IsWinner('X'))
-                {
-                    Draw();
-                    EndGame("Крестики");
-                }
-                else if (IsWinner('O'))
-                {
-                    Draw();
-                    EndGame("Нолики");
-                }
+    //            if (IsWinner('X'))
+    //            {
+    //                Draw();
+    //                EndGame("Крестики");
+    //            }
+    //            else if (IsWinner('O'))
+    //            {
+    //                Draw();
+    //                EndGame("Нолики");
+    //            }
 
-                _isXMove = !_isXMove;
-            }
-            else
-            {
-                ShowError("По этим координатам уже сделан ход.");
-            }
-        }
-        else
-        {
-            ShowError(_coordErrorMessage);
-            return;
-        }
-    }
-    private bool NextStepWin(char player)
-    {
-        int countRows = 0;
-        int countColumns = 0;
-        int countDiagonals = 0;
-        for (int i = 0; i < _field.Length; i++)
-        {
-            for (int j = 0; j < _field.Length; j++)
-            {
-                if (i == 0)
-                {
-                    if (_field[i, j] == player)
-                    {
-                        countRows++;
-                    }
+    //            _isXMove = !_isXMove;
+    //        }
+    //        else
+    //        {
+    //            ShowError("По этим координатам уже сделан ход.");
+    //        }
+    //    }
+    //    else
+    //    {
+    //        ShowError(_coordErrorMessage);
+    //        return;
+    //    }
+    //}
+    //private bool NextStepWin(char player)
+    //{
+    //    int countRows = 0;
+    //    int countColumns = 0;
+    //    int countDiagonals = 0;
+    //    for (int i = 0; i < _field.Length; i++)
+    //    {
+    //        for (int j = 0; j < _field.Length; j++)
+    //        {
+    //            if (i == 0)
+    //            {
+    //                if (_field[i, j] == player)
+    //                {
+    //                    countRows++;
+    //                }
 
-                }
-            }
-        }
-        return (
-        // Rows
-            (_field[0, 0] == player && _field[0, 1] == player && _field[0, 2] == player) ||
-            (_field[1, 0] == player && _field[1, 1] == player && _field[1, 2] == player) ||
-            (_field[2, 0] == player && _field[2, 1] == player && _field[2, 2] == player) ||
-        // Columns
-            (_field[0, 0] == player && _field[1, 0] == player && _field[2, 0] == player) ||
-            (_field[0, 1] == player && _field[1, 1] == player && _field[2, 1] == player) ||
-            (_field[0, 2] == player && _field[1, 2] == player && _field[2, 2] == player) ||
-        // Diagonals
-            (_field[0, 0] == player && _field[1, 1] == player && _field[2, 2] == player) ||
-            (_field[0, 2] == player && _field[1, 1] == player && _field[2, 0] == player)
-        );
-    }
+    //            }
+    //        }
+    //    }
+    //    return (
+    //    // Rows
+    //        (_field[0, 0] == player && _field[0, 1] == player && _field[0, 2] == player) ||
+    //        (_field[1, 0] == player && _field[1, 1] == player && _field[1, 2] == player) ||
+    //        (_field[2, 0] == player && _field[2, 1] == player && _field[2, 2] == player) ||
+    //    // Columns
+    //        (_field[0, 0] == player && _field[1, 0] == player && _field[2, 0] == player) ||
+    //        (_field[0, 1] == player && _field[1, 1] == player && _field[2, 1] == player) ||
+    //        (_field[0, 2] == player && _field[1, 2] == player && _field[2, 2] == player) ||
+    //    // Diagonals
+    //        (_field[0, 0] == player && _field[1, 1] == player && _field[2, 2] == player) ||
+    //        (_field[0, 2] == player && _field[1, 1] == player && _field[2, 0] == player)
+    //    );
+    //}
 }
