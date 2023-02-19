@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Core.Controller;
 using Core.Models;
+using Games.Core;
 
 
 namespace Core.Menu
@@ -89,8 +90,7 @@ namespace Core.Menu
                         Console.WriteLine("Список доступных меню:");
                         Console.WriteLine("1 Изменение аккаунта");
                         Console.WriteLine("2 Просмотр статистики");
-                        Console.WriteLine("3 Игра Крестики Нолики");
-                        Console.WriteLine("4 Игра Не выбрал");
+                        Console.WriteLine("3 Игры");
                         Console.WriteLine("0 Выход из Аккаунта");
                         Console.WriteLine("Введите номер меню");
                         numberMenu = Console.ReadLine();
@@ -120,18 +120,13 @@ namespace Core.Menu
                         }
                         else if (numberMenu.Equals("2"))
                         {
-
                             // просмотр статистики
                         }
                         else if (numberMenu.Equals("3"))
                         {
+                            GamesCore newGame = new GamesCore(user.Id);
+                            newGame.MenuGames();
 
-                            // Вызов игры крестики нолики
-                        }
-                        else if (numberMenu.Equals("4"))
-                        {
-
-                            // вызов игры 
                         }
                         else if (numberMenu.Equals("0"))
                         {

@@ -1,6 +1,4 @@
 ﻿using System.Reflection.Metadata;
-using Core.Models;
-using Core.Repositories;
 
 namespace Games.Core
 {
@@ -23,9 +21,21 @@ namespace Games.Core
         //public string user { get; private set; } 
         //public string  Stats = new UserStatsRepository();
 
-        поулчить имя пользователя id
-            поулчить игру 
+        //поулчить имя пользователя id
+        //    поулчить игру 
 
-            и вызываем игру
+        //    и вызываем игру
+
+        public int IdUser { get; set; }
+
+        public GamesCore(int idUser)
+        {
+            IdUser = idUser;
+        }
+
+        public void MenuGames()
+        {
+
+        }
     }
 }
