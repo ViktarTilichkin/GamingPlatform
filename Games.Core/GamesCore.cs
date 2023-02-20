@@ -35,8 +35,9 @@ namespace Games.Core
             IdUser = idUser;
         }
 
-        public void MenuGames(out string gameResult)
+        public void MenuGames(string userName, out string gameResult)
         {
+            Console.WriteLine("Hello")
             games.Start(out gameResult);
         }
     }

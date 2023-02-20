@@ -62,8 +62,8 @@ namespace Core.Menu
                         {
                             Console.Clear();
                             Console.WriteLine("Статистика по играм");
-                            Console.WriteLine("1 крестики нолики");
-                            Console.WriteLine("еще игра");
+                            Console.WriteLine("1 статистика игр");
+                            Console.WriteLine("2 список доступных игры и правила игры");
                             Console.WriteLine("0 Выход");
                             numberMenu = Console.ReadLine();
                             if (numberMenu.Equals("1"))
@@ -74,7 +74,7 @@ namespace Core.Menu
                             }
                             if (numberMenu.Equals("2"))
                             {
-                                // статистика игре
+                                Console.WriteLine("крестики нолики");
                             }
                             else if (numberMenu.Equals("0"))
                             {
