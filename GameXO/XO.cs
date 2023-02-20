@@ -8,14 +8,13 @@ public class XO
                 { '4', '5', '6' },
                 { '7', '8', '9' },
             };
-
+    private string _name;
     private bool _isXMove = true;
-    private char AiSide = ' ';
-
     private readonly string _coordErrorMessage = "Координаты должны быть: [0, 2]";
 
-    public void Start(out string result)
+    public void Start(string userName, out string result)
     {
+        _name = userName;
         result = null;
         Draw();
 
@@ -131,8 +130,8 @@ public class XO
     private void Draw()
     {
         Console.Clear();
-
         Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine($"\n Hello {_name}!\n");
         Console.WriteLine("\n Крестики-Нолики\n");
         Console.ForegroundColor = ConsoleColor.Magenta;
 

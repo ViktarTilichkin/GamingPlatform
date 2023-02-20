@@ -112,7 +112,6 @@ namespace Core.Controller
             Thread.Sleep(2000);
             return (false, null);
         }
-
     }
 }
 

@@ -37,8 +37,8 @@ namespace Games.Core
 
         public void MenuGames(string userName, out string gameResult)
         {
-            Console.WriteLine("Hello")
-            games.Start(out gameResult);
+            Console.WriteLine($"Hello");
+            games.Start(userName, out gameResult);
         }
     }
 }

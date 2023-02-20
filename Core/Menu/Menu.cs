@@ -130,7 +130,7 @@ namespace Core.Menu
                         else if (numberMenu.Equals("3"))
                         {
                             GamesCore newGame = new GamesCore(user.Id);
-                            newGame.MenuGames(out gameResult);
+                            newGame.MenuGames(user.Name, out gameResult);
                             UserStatsController stats = new UserStatsController();
                             stats.AddUserStat(user, gameResult);
                         }
