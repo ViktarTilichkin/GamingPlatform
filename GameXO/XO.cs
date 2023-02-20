@@ -10,8 +10,44 @@ public class XO
             };
     private string _name;
     private bool _isXMove = true;
+    private bool _SideToPlayX = true;
+    private bool _PlayerVsBot = true;
     private readonly string _coordErrorMessage = "Координаты должны быть: [0, 2]";
 
+    public void StartGame(string userName, out string result)
+    {
+        result = null;
+        Setting();
+        Start(userName, out result);
+    }
+    public void Setting()
+    {
+        Console.Clear();
+        Console.WriteLine("Let's set up the game!");
+        Console.WriteLine("Which side will you choose X or O");
+        string numberMenu = Console.ReadLine();
+        if (numberMenu.ToLower().Equals("x"))
+        {
+            Console.WriteLine("succes");
+        }
+        else if (numberMenu.ToLower().Equals("o"))
+        {
+            Console.WriteLine("succes");
+            _SideToPlayX = false;
+        }
+        Console.WriteLine("Are we playing with a friend or a bot? Y (frend) / N (bot)");
+        numberMenu = Console.ReadLine();
+        if (numberMenu.ToLower().Equals("y"))
+        {
+            Console.WriteLine("succes");
+            _PlayerVsBot = false;
+        }
+        else if (numberMenu.ToLower().Equals("n"))
+        {
+            Console.WriteLine("succes");
+        }
+        Thread.Sleep(1000);
+    }
     public void Start(string userName, out string result)
     {
         _name = userName;

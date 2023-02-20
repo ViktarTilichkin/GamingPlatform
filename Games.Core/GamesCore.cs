@@ -37,8 +37,16 @@ namespace Games.Core
 
         public void MenuGames(string userName, out string gameResult)
         {
-            Console.WriteLine($"Hello");
-            games.Start(userName, out gameResult);
+            gameResult = null;
+            Console.WriteLine($"Hi! {userName}");
+            Console.WriteLine($"What game do you want to play?");
+            Console.WriteLine($"1 XO Game");
+            Console.WriteLine($"0 Out");
+            string numberMenu = Console.ReadLine();
+            if (numberMenu.Equals("1"))
+            {
+                games.StartGame(userName, out gameResult);
+            }
         }
     }
 }

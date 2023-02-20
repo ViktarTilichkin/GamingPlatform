@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace GameXO
 {
-    internal class XBOT
+    public class XBOT
     {
+        private char[,] _field = new char[3, 3] {
+                { '1', '2', '3' },
+                { '4', '5', '6' },
+                { '7', '8', '9' },
+            };
+
     }
 }
