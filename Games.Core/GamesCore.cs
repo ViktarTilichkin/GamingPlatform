@@ -40,7 +40,7 @@ namespace Games.Core
             gameResult = null;
             Console.WriteLine($"Hi! {userName}");
             Console.WriteLine($"What game do you want to play?");
-            Console.WriteLine($"1 XO Game");
+            Console.WriteLine($"{EnumGame.XO} XO Game");
             Console.WriteLine($"0 Out");
             string numberMenu = Console.ReadLine();
             if (numberMenu.Equals("1"))

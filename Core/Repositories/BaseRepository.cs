@@ -56,7 +56,7 @@ namespace Core.Repositories
                 {
                     if (dataList[i] != null)
                     {
-                        string json = JsonSerializer.Serialize<T>(dataList[i], serializeoptions);
+                        string json = JsonSerializer.Serialize(dataList[i], serializeoptions);
                         sw1.WriteLine(json);
                     }
                 }
