@@ -1,5 +1,6 @@
 ﻿using System.Reflection.Metadata;
 using System.Xml.Linq;
+using Games.Shared;
 using GameXO;
 
 namespace Games.Core
@@ -40,10 +41,9 @@ namespace Games.Core
             gameResult = null;
             Console.WriteLine($"Hi! {userName}");
             Console.WriteLine($"What game do you want to play?");
-            Console.WriteLine($"{EnumGame.XO} XO Game");
+            Console.WriteLine($"{(int)EnumGame.XO} XO Game");
             Console.WriteLine($"0 Out");
-            string numberMenu = Console.ReadLine();
-            if (numberMenu.Equals("1"))
+            if (int.TryParse(Console.ReadLine(), out var codeMenu) && codeMenu == (int)EnumGame.XO)
             {
                 games.StartGame(userName, out gameResult);
             }

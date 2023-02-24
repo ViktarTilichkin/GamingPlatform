@@ -8,7 +8,7 @@ namespace Core.Models
 {
     public class UserStats
     {
-        public User user { get; set; }
+        public int Id { get; set; }
         public string GameResult { get; set; }
         public string GameName { get; set; }
         public DateTime time = DateTime.Now;
