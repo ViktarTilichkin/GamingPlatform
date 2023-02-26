@@ -52,13 +52,13 @@ namespace Core.Controller
                     if (userID != null)
                     {
                         Console.WriteLine("Succes");
-                        Thread.Sleep(2000);
+                        Thread.Sleep(3000);
                         return (true, userID);
                     }
                 }
             }
             Console.WriteLine("Oooopp! Something went wrong!");
-            Thread.Sleep(2000);
+            Thread.Sleep(3000);
             return (false, null);
         }
         public (bool, User?) Update(User? user)
@@ -81,13 +81,13 @@ namespace Core.Controller
                     if (cloneUser != null)
                     {
                         Console.WriteLine("Succes");
-                        Thread.Sleep(2000);
+                        Thread.Sleep(3000);
                         return (true, cloneUser);
                     }
                 }
             }
             Console.WriteLine("Oooopp! Something went wrong!");
-            Thread.Sleep(2000);
+            Thread.Sleep(3000);
             return (true, null);
         }
         public (bool, User?) Delete(User? user)
@@ -104,12 +104,12 @@ namespace Core.Controller
                 if (servicUser.Delete(user))
                 {
                     Console.WriteLine("Succes");
-                    Thread.Sleep(2000);
+                    Thread.Sleep(3000);
                     return (false, null);
                 }
             }
             Console.WriteLine("Oooopp! Something went wrong!");
-            Thread.Sleep(2000);
+            Thread.Sleep(3000);
             return (false, null);
         }
     }

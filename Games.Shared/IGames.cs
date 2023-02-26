@@ -8,9 +8,9 @@ namespace Games.Core
 {
     internal interface IGames
     {
-        public void StartGame();
-        public void StopGame();
-        public void Settings();
-        public void StartWithSave();
+        public void StartGame(); // старт игры настройка и запуск внутри метод старта из сохранения
+        public void StopGame(); // прерывание / окончание игры сохронение
+        public void Settings(); // настройки
+        public void StartWithSave(); // старт из сохранения
     }
 }

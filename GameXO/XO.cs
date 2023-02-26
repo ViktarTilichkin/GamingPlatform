@@ -10,8 +10,11 @@ public class XO
             };
     private string _name;
     private bool _isXMove = true;
-    private bool _SideToPlayX = true;
-    private bool _PlayerVsBot = true;
+    private bool _SideToPlayerX = true;
+    private char _SideToPlayer = 'X';
+    private char _SideToBOT = 'O';
+    private bool _PlayerVsBot = false;
+    private XBOT BOT = new XBOT();
     private readonly string _coordErrorMessage = "Координаты должны быть: [0, 2]";
 
     public void StartGame(string userName, out string result)
@@ -32,15 +35,17 @@ public class XO
         }
         else if (numberMenu.ToLower().Equals("o"))
         {
+            _SideToPlayerX = false;
+            _SideToPlayer = 'O';
+            _SideToBOT = 'X';
             Console.WriteLine("succes");
-            _SideToPlayX = false;
         }
-        Console.WriteLine("Are we playing with a friend or a bot? Y (frend) / N (bot)");
+        Console.WriteLine("Are we playing with a friend or a bot? Y (friend) / N (bot)");
         numberMenu = Console.ReadLine();
         if (numberMenu.ToLower().Equals("y"))
         {
             Console.WriteLine("succes");
-            _PlayerVsBot = false;
+            _PlayerVsBot = true;
         }
         else if (numberMenu.ToLower().Equals("n"))
         {
@@ -61,50 +66,61 @@ public class XO
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("\n Введите номер ячейки: \n (или -1 для выхода): ");
             Console.ForegroundColor = ConsoleColor.White;
-            if (!int.TryParse(Console.ReadLine(), out int fild))
+            if (_isXMove)
             {
-                ShowError(_coordErrorMessage);
-                continue;
+                if (_SideToPlayerX)
+                {
+                    if (!int.TryParse(Console.ReadLine(), out int fild))
+                    {
+                        ShowError(_coordErrorMessage);
+                        continue;
+                    }
+                    if (fild == -1) break;
+                    (row, col) = SwitchFild(fild);
+                }
+                else if (_PlayerVsBot)
+                {
+                    if (!int.TryParse(Console.ReadLine(), out int fild))
+                    {
+                        ShowError(_coordErrorMessage);
+                        continue;
+                    }
+                    if (fild == -1) break;
+                    (row, col) = SwitchFild(fild);
+                }
+                else
+                {
+                    Thread.Sleep(3000);
+                    (row, col) = BOT.MakeComputerMove(_field, _SideToPlayer);
+                }
             }
-            if (fild == -1) break;
-            switch (fild)
+            else
             {
-                case 1:
-                    row = 0;
-                    col = 0;
-                    break;
-                case 2:
-                    row = 0;
-                    col = 1;
-                    break;
-                case 3:
-                    row = 0;
-                    col = 2;
-                    break;
-                case 4:
-                    row = 1;
-                    col = 0;
-                    break;
-                case 5:
-                    row = 1;
-                    col = 1;
-                    break;
-                case 6:
-                    row = 1;
-                    col = 2;
-                    break;
-                case 7:
-                    row = 2;
-                    col = 0;
-                    break;
-                case 8:
-                    row = 2;
-                    col = 1;
-                    break;
-                case 9:
-                    row = 2;
-                    col = 2;
-                    break;
+                if (!_SideToPlayerX)
+                {
+                    if (!int.TryParse(Console.ReadLine(), out int fild))
+                    {
+                        ShowError(_coordErrorMessage);
+                        continue;
+                    }
+                    if (fild == -1) break;
+                    (row, col) = SwitchFild(fild);
+                }
+                else if (_PlayerVsBot)
+                {
+                    if (!int.TryParse(Console.ReadLine(), out int fild))
+                    {
+                        ShowError(_coordErrorMessage);
+                        continue;
+                    }
+                    if (fild == -1) break;
+                    (row, col) = SwitchFild(fild);
+                }
+                else
+                {
+                    Thread.Sleep(3000);
+                    (row, col) = BOT.MakeComputerMove(_field, _SideToPlayer);
+                }
             }
             if (!Update(row, col, out result))
             {
@@ -134,14 +150,20 @@ public class XO
                 {
                     result = "XO game, You side X, Win";
                     Draw();
-                    return EndGame("Крестики");
+                    return EndGame("Крестики", !IsWinner('X'));
 
                 }
                 else if (IsWinner('O'))
                 {
                     Draw();
                     result = "XO game, You side X, Lose";
-                    return EndGame("Нолики");
+                    return EndGame("Нолики", !IsWinner('O'));
+                }
+                else if (!DrawGame())
+                {
+                    Draw();
+                    result = "You have tied!";
+                    return EndGame("Нолики", !DrawGame());
                 }
 
                 _isXMove = !_isXMove;
@@ -211,6 +233,20 @@ public class XO
             (_field[0, 2] == player && _field[1, 1] == player && _field[2, 0] == player)
         );
     }
+    private bool DrawGame()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                if (_field[i, j] != 'O' && _field[i, j] != 'X')
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     private void ClearField()
     {
@@ -221,10 +257,11 @@ public class XO
             };
     }
 
-    private bool EndGame(string player)
+    private bool EndGame(string player, bool resultGame)
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine(string.Format("\n Победили {0}!", player));
+        if (resultGame) Console.WriteLine(string.Format("\n Ничья!", player));
+        else Console.WriteLine(string.Format("\n Победили {0}!", player));
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine("\n Нажмите любую клавишу для продолжения");
         if (Convert.ToString(Console.ReadLine()).ToLower().Equals("n"))
@@ -235,72 +272,59 @@ public class XO
         ClearField();
         return true;
     }
-
-    //private void AIUpdate(string aiSide)
+    private (int, int) SwitchFild(int fild)
+    {
+        int row = -1;
+        int col = -1;
+        switch (fild)
+        {
+            case 1:
+                row = 0;
+                col = 0;
+                break;
+            case 2:
+                row = 0;
+                col = 1;
+                break;
+            case 3:
+                row = 0;
+                col = 2;
+                break;
+            case 4:
+                row = 1;
+                col = 0;
+                break;
+            case 5:
+                row = 1;
+                col = 1;
+                break;
+            case 6:
+                row = 1;
+                col = 2;
+                break;
+            case 7:
+                row = 2;
+                col = 0;
+                break;
+            case 8:
+                row = 2;
+                col = 1;
+                break;
+            case 9:
+                row = 2;
+                col = 2;
+                break;
+        }
+        return (row, col);
+    }
+    //private void InputStep(out int fild)
     //{
-
-    //    if (0 <= row && row <= 2 &&
-    //        0 <= col && col <= 2)
-    //    {
-    //        if (_field[row, col] != 'X' && _field[row, col] != 'O')
-    //        {
-    //            _field[row, col] = _isXMove ? 'X' : 'O';
-
-    //            if (IsWinner('X'))
-    //            {
-    //                Draw();
-    //                EndGame("Крестики");
-    //            }
-    //            else if (IsWinner('O'))
-    //            {
-    //                Draw();
-    //                EndGame("Нолики");
-    //            }
-
-    //            _isXMove = !_isXMove;
-    //        }
-    //        else
-    //        {
-    //            ShowError("По этим координатам уже сделан ход.");
-    //        }
-    //    }
-    //    else
+    //    string input = Console.ReadLine();
+    //    if (!int.TryParse(input, out  fild))
     //    {
     //        ShowError(_coordErrorMessage);
-    //        return;
+    //        continue;
     //    }
-    //}
-    //private bool NextStepWin(char player)
-    //{
-    //    int countRows = 0;
-    //    int countColumns = 0;
-    //    int countDiagonals = 0;
-    //    for (int i = 0; i < _field.Length; i++)
-    //    {
-    //        for (int j = 0; j < _field.Length; j++)
-    //        {
-    //            if (i == 0)
-    //            {
-    //                if (_field[i, j] == player)
-    //                {
-    //                    countRows++;
-    //                }
-
-    //            }
-    //        }
-    //    }
-    //    return (
-    //    // Rows
-    //        (_field[0, 0] == player && _field[0, 1] == player && _field[0, 2] == player) ||
-    //        (_field[1, 0] == player && _field[1, 1] == player && _field[1, 2] == player) ||
-    //        (_field[2, 0] == player && _field[2, 1] == player && _field[2, 2] == player) ||
-    //    // Columns
-    //        (_field[0, 0] == player && _field[1, 0] == player && _field[2, 0] == player) ||
-    //        (_field[0, 1] == player && _field[1, 1] == player && _field[2, 1] == player) ||
-    //        (_field[0, 2] == player && _field[1, 2] == player && _field[2, 2] == player) ||
-    //    // Diagonals
-    //        (_field[0, 0] == player && _field[1, 1] == player && _field[2, 2] == player) ||
-    //        (_field[0, 2] == player && _field[1, 1] == player && _field[2, 0] == player)
-    //    );
+    //    if (fild == -1) break;
     //}
 }

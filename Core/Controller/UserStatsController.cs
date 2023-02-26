@@ -36,7 +36,7 @@ namespace Core.Controller
             }
             for (int i = 0; i < stats.Count; i++)
             {
-                Console.WriteLine(stats[i]);
+                Console.WriteLine($"User {user.Name} {stats[i]}");
             }
             return true;
         }
@@ -44,7 +44,7 @@ namespace Core.Controller
         {
             if (user != null && gameResult != null)
             {
-                UserStats stats = new UserStats(user, gameResult);
+                UserStats stats = new UserStats(user.Id, gameResult);
                 _service.AddUserStats(stats);
                 return true;
             }
