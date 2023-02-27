@@ -8,24 +8,19 @@ namespace GameXO
 {
     public class GameSave
     {
-        private string[,] board = new string[3, 3]; // игровое поле
-        private bool isPlayerX = true; // чей сейчас ход (true - крестики, false - нолики)
-        private bool isAgainstComputer = false; // игра против компьютера
-        private string playerSide = "X"; // какую сторону выбрал игрок ("X" или "O")
-        private int playerId = -1; // идентификатор игрока
+        private string[,] board = new string[3, 3];
+        private bool isPlayerX = true;
+        private bool isAgainstComputer = false;
+        private string playerSide = "X";
+        private int playerId = -1;
 
         public void SaveGame()
         {
-            // открываем файл для записи
             StreamWriter writer = new StreamWriter("gamesave.txt", true);
-
-            // записываем настройки игры в файл
             writer.WriteLine(playerId);
             writer.WriteLine(isPlayerX);
             writer.WriteLine(isAgainstComputer);
             writer.WriteLine(playerSide);
-
-            // записываем состояние игрового поля в файл
             for (int row = 0; row < 3; row++)
             {
                 for (int col = 0; col < 3; col++)
@@ -34,10 +29,7 @@ namespace GameXO
                 }
                 writer.WriteLine();
             }
-
-            // закрываем файл
             writer.Close();
-
             Console.WriteLine($"Игра игрока с id {playerId} сохранена в файле gamesave.txt.");
         }
 
@@ -48,26 +40,16 @@ namespace GameXO
 
             if (File.Exists("gamesave.txt"))
             {
-                // открываем файл для чтения
                 StreamReader reader = new StreamReader("gamesave.txt");
-
-                // читаем каждую запись в файле
                 while (!reader.EndOfStream)
                 {
-                    // читаем идентификатор игрока из файла
                     int id = Convert.ToInt32(reader.ReadLine());
-
-                    // если это запись для нужного игрока, то загружаем игру
                     if (id == playerId)
                     {
                         foundSave = true;
-
-                        // читаем настройки игры из файла
                         isPlayerX = Convert.ToBoolean(reader.ReadLine());
                         isAgainstComputer = Convert.ToBoolean(reader.ReadLine());
                         playerSide = reader.ReadLine();
-
-                        // читаем состояние игрового поля из файла
                         for (int row = 0; row < 3; row++)
                         {
                             string[] line = reader.ReadLine().Split(' ');
@@ -76,22 +58,17 @@ namespace GameXO
                                 board[row, col] = line[col];
                             }
                         }
-
                         Console.WriteLine($"Игра игрока с id {playerId} загружена из файла gamesave.txt.");
                         break;
                     }
                     else
                     {
-                        // пропускаем запись для другого игрока
                         for (int i = 0; i < 10; i++)
                         {
                             reader.ReadLine();
                         }
                     }
                 }
-
-                // закрываем файл
-
             }
         }
     }
