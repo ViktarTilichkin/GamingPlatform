@@ -8,19 +8,28 @@ namespace GameXO
 {
     public class GameSave
     {
-        private string[,] board = new string[3, 3];
-        private bool isPlayerX = true;
-        private bool isAgainstComputer = false;
-        private string playerSide = "X";
+        private char[,] board = new char[3, 3];
+        private bool _isXmove = true;
+        private bool _PlayerVsBot = false;
+        private char _SideToPlayer = 'X';
         private int playerId = -1;
+
+        public GameSave(char[,] board, bool isXmove, bool playerVsBot, char playerSide, int playerId)
+        {
+            this.board = board;
+            this._isXmove = isXmove;
+            this._PlayerVsBot = playerVsBot;
+            this._SideToPlayer = playerSide;
+            this.playerId = playerId;
+        }
 
         public void SaveGame()
         {
             StreamWriter writer = new StreamWriter("gamesave.txt", true);
             writer.WriteLine(playerId);
-            writer.WriteLine(isPlayerX);
-            writer.WriteLine(isAgainstComputer);
-            writer.WriteLine(playerSide);
+            writer.WriteLine(_isXmove);
+            writer.WriteLine(_PlayerVsBot);
+            writer.WriteLine(_SideToPlayer);
             for (int row = 0; row < 3; row++)
             {
                 for (int col = 0; col < 3; col++)
@@ -47,9 +56,9 @@ namespace GameXO
                     if (id == playerId)
                     {
                         foundSave = true;
-                        isPlayerX = Convert.ToBoolean(reader.ReadLine());
-                        isAgainstComputer = Convert.ToBoolean(reader.ReadLine());
-                        playerSide = reader.ReadLine();
+                        _isXmove = Convert.ToBoolean(reader.ReadLine());
+                        _PlayerVsBot = Convert.ToBoolean(reader.ReadLine());
+                        _SideToPlayer = reader.ReadLine();
                         for (int row = 0; row < 3; row++)
                         {
                             string[] line = reader.ReadLine().Split(' ');
