@@ -14,15 +14,19 @@ public class XO
     private char _SideToPlayer = 'X';
     private bool _PlayerVsBot = false;
     private int _PlaeyrId;
+    private GameSave save = new GameSave();
     private XBOT BOT = new XBOT();
+
     private readonly string _coordErrorMessage = "Координаты должны быть: [0, 2]";
 
-    public void StartGame(int id,string userName, out string result)
+    public void StartGame(int id, string userName, out string result)
     {
         _PlaeyrId = id;
         result = null;
         Setting();
         Start(userName, out result);
+        save = new GameSave(_field, _isXMove, _PlayerVsBot, _SideToPlayer, 5);
+        save.LoadGame();
     }
     public void Setting()
     {
@@ -38,7 +42,6 @@ public class XO
         {
             _SideToPlayerX = false;
             _SideToPlayer = 'O';
-            _SideToBOT = 'X';
             Console.WriteLine("succes");
         }
         Console.WriteLine("Are we playing with a friend or a bot? Y (friend) / N (bot)");

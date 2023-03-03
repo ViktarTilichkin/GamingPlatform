@@ -7,7 +7,7 @@ namespace Games.Core
 {
     public class GamesCore
     {
-        
+
         private XO games = new XO();
         public int IdUser { get; set; }
 
@@ -26,7 +26,7 @@ namespace Games.Core
             Console.WriteLine($"0 Out");
             if (int.TryParse(Console.ReadLine(), out var codeMenu) && codeMenu == (int)EnumGame.XO)
             {
-                games.StartGame(userName, out gameResult);
+                games.StartGame(5, userName, out gameResult);
             }
         }
     }
