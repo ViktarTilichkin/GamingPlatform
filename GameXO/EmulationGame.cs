@@ -8,7 +8,13 @@ namespace GameXO
 {
     public class EmulationGame
     {
-        public char[] field { get; set; } = new char[3]
+        public char[] fieldROW1 { get; set; } = new char[3]
+        { '1', '2', '3' }
+                   ;
+        public char[] fieldROW2 { get; set; } = new char[3]
+        { '1', '2', '3' }
+                   ;
+        public char[] fieldROW3 { get; set; } = new char[3]
         { '1', '2', '3' }
                    ;
         public bool isXMove { get; set; } = true;
@@ -18,7 +24,7 @@ namespace GameXO
         public int PlaeyrId { get; set; }
         public override string ToString()
         {
-            return $"{field} + {isXMove} + {SideToPlayerX} + {SideToPlayer}";
+            return $"{fieldROW1} + {fieldROW2} + {fieldROW3} + {isXMove} + {SideToPlayerX} + {SideToPlayer}";
         }
     }
 }

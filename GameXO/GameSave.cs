@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace GameXO
 {
@@ -16,7 +17,7 @@ namespace GameXO
         { }
         public GameSave(char[,] board, bool isXmove, bool playerVsBot, char playerSide, int playerId)
         {
-
+            ConvertFieldToRow(board);
             game.isXMove = isXmove;
             game.PlayerVsBot = playerVsBot;
             game.SideToPlayer = playerSide;
@@ -40,57 +41,83 @@ namespace GameXO
             //}
             //writer.Close();
             //Console.WriteLine($"Игра игрока с id {playerId} сохранена в файле gamesave.txt.");
-        }
-
-        public void LoadGame()
-        {
-            //this.playerId = playerId;
-            //bool foundSave = false;
-
-            //if (File.Exists("gamesave.txt"))
-            //{
-            //    StreamReader reader = new StreamReader("gamesave.txt");
-            //    while (!reader.EndOfStream)
-            //    {
-            //        int id = Convert.ToInt32(reader.ReadLine());
-            //        if (id == playerId)
-            //        {
-            //            foundSave = true;
-            //            _isXmove = Convert.ToBoolean(reader.ReadLine());
-            //            _PlayerVsBot = Convert.ToBoolean(reader.ReadLine());
-            //            _SideToPlayer = reader.ReadLine();
-            //            for (int row = 0; row < 3; row++)
-            //            {
-            //                string[] line = reader.ReadLine().Split(' ');
-            //                for (int col = 0; col < 3; col++)
-            //                {
-            //                    board[row, col] = line[col];
-            //                }
-            //            }
-            //            Console.WriteLine($"Игра игрока с id {playerId} загружена из файла gamesave.txt.");
-            //            break;
-            //        }
-            //        else
-            //        {
-            //            for (int i = 0; i < 10; i++)
-            //            {
-            //                reader.ReadLine();
-            //            }
-            //        }
-            //    }
-            //}
-            Console.WriteLine(path);
-            Console.WriteLine(game);
             var serializeoptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
             StreamWriter sw1 = new StreamWriter(path);
-            string json = JsonSerializer.Serialize<EmulationGame>(game, serializeoptions);
+            string json = JsonSerializer.Serialize(game, serializeoptions);
             sw1.WriteLine(json);
             sw1.Close();
-            Console.WriteLine(json);
-            Console.ReadKey();
+        }
+
+        public (char[,], bool, bool, char, bool) LoadGame(int playerId)
+        {
+            bool foundSave = false;
+            if (File.Exists("save.txt"))
+            {
+                List<EmulationGame> gamesave = new List<EmulationGame>();
+                EmulationGame save = new EmulationGame();
+                StreamReader reader = new StreamReader("save.txt");
+                var serializeoptions = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                };
+                while (!reader.EndOfStream)
+                { 
+                    string line = reader.ReadLine();
+                    while (line != null)
+                    {
+                        var fild = JsonSerializer.Deserialize<EmulationGame>(line, serializeoptions);
+                        gamesave.Add(fild);
+                        line = reader.ReadLine();
+                    };
+                    foreach (EmulationGame user in gamesave)
+                    {
+                        if (user.PlaeyrId == playerId)
+                        {
+                            save = user;
+                            foundSave = true;
+                        }
+                    }
+                    if (foundSave)
+                    {
+                        ConvertFieldToBoard(save.fieldROW1, save.fieldROW2, save.fieldROW3, out char[,] board);
+                        Console.WriteLine($"Игра игрока с id {playerId} загружена ");
+                        return (board, save.isXMove, save.SideToPlayerX, save.SideToPlayer, save.PlayerVsBot);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Игра игрока с id {playerId} не найдена");
+                    }
+                }
+            }
+            return (default, default, default, default, default);
+        }
+        private void ConvertFieldToRow(char[,] board)
+        {
+            for (int row = 0; row < 3; row++)
+            {
+                for (int col = 0; col < 3; col++)
+                {
+                    if (row == 0) game.fieldROW1[col] = board[row, col];
+                    if (row == 1) game.fieldROW2[col] = board[row, col];
+                    if (row == 2) game.fieldROW3[col] = board[row, col];
+                }
+            }
+        }
+        private void ConvertFieldToBoard(char[] row1, char[] row2, char[] row3, out char[,] board)
+        {
+            board = new char[3, 3];
+            for (int row = 0; row < 3; row++)
+            {
+                for (int col = 0; col < 3; col++)
+                {
+                    if (row == 0) board[row, col] = row1[col];
+                    if (row == 1) board[row, col] = row2[col];
+                    if (row == 2) board[row, col] = row3[col];
+                }
+            }
         }
     }
 }

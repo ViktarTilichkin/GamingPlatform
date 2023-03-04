@@ -24,9 +24,10 @@ public class XO
         _PlaeyrId = id;
         result = null;
         Setting();
-        Start(userName, out result);
         save = new GameSave(_field, _isXMove, _PlayerVsBot, _SideToPlayer, 5);
-        save.LoadGame();
+        (_field, _isXMove, _SideToPlayerX, _SideToPlayer, _PlayerVsBot) = save.LoadGame(_PlaeyrId);
+        Start(userName, out result);
+        save.SaveGame();
     }
     public void Setting()
     {
