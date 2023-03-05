@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>GameBak_Dice</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GameBak-Dice\GameBak-Dice.csproj" />
-    <ProjectReference Include="..\GameXO\GameXO.csproj" />
+    <ProjectReference Include="..\Games.Shared\Games.Shared.csproj" />
   </ItemGroup>
 
 </Project>

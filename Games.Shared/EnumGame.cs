@@ -4,7 +4,8 @@ namespace Games.Shared
 {
     public enum  EnumGame
     {
-        XO = 1
+        XO = 1,
+        BakDice = 2
     }
 }
 

@@ -23,11 +23,11 @@ public class XO
     {
         _PlaeyrId = id;
         result = null;
-        Setting();
-        save = new GameSave(_field, _isXMove, _PlayerVsBot, _SideToPlayer, 5);
-        (_field, _isXMove, _SideToPlayerX, _SideToPlayer, _PlayerVsBot) = save.LoadGame(_PlaeyrId);
+        (_field, _isXMove, _SideToPlayerX, _SideToPlayer, _PlayerVsBot) = save.LoadGame(_PlaeyrId, out bool load);
+        if (!load) Setting();
         Start(userName, out result);
-        save.SaveGame();
+        save = new GameSave(_field, _isXMove, _PlayerVsBot, _SideToPlayer, 5);
+        save.SaveGame(_PlaeyrId);
     }
     public void Setting()
     {
@@ -37,13 +37,18 @@ public class XO
         string numberMenu = Console.ReadLine();
         if (numberMenu.ToLower().Equals("x"))
         {
+            _SideToPlayer = 'X';
+            _SideToPlayerX = true;
+            _isXMove = true;
             Console.WriteLine("succes");
+            Thread.Sleep(1000);
         }
         else if (numberMenu.ToLower().Equals("o"))
         {
             _SideToPlayerX = false;
             _SideToPlayer = 'O';
             Console.WriteLine("succes");
+            Thread.Sleep(1000);
         }
         Console.WriteLine("Are we playing with a friend or a bot? Y (friend) / N (bot)");
         numberMenu = Console.ReadLine();
@@ -51,6 +56,7 @@ public class XO
         {
             Console.WriteLine("succes");
             _PlayerVsBot = true;
+            Thread.Sleep(1000);
         }
         else if (numberMenu.ToLower().Equals("n"))
         {

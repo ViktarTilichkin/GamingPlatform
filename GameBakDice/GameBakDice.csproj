@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GameBak-Dice\GameBak-Dice.csproj" />
-    <ProjectReference Include="..\GameXO\GameXO.csproj" />
+    <ProjectReference Include="..\Games.Shared\Games.Shared.csproj" />
   </ItemGroup>
 
 </Project>
