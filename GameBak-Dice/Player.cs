@@ -6,9 +6,20 @@ using System.Threading.Tasks;
 
 namespace GameBak_Dice
 {
-    internal class Player
+    public class Player
     {
         public string Name { get; set; }
+        public int Bak { get; set; } = 0;
+        public bool PlayRandom { get; set; } = true;
+        public bool Bot { get; set; } = false;
+
+        public int LastDice = 0;
+
+        public override string ToString()
+        {
+            return $"Name: {Name} Bak: {Bak}  LastDice {LastDice}";
+        }
+
 
     }
 }

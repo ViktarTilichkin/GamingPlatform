@@ -1,5 +1,6 @@
 ﻿using System.Reflection.Metadata;
 using System.Xml.Linq;
+using GameBak_Dice;
 using Games.Shared;
 using GameXO;
 
@@ -8,7 +9,8 @@ namespace Games.Core
     public class GamesCore
     {
 
-        private XO games = new XO();
+        private XO xo = new XO();
+        private BakDice bakdice = new BakDice();
         public int IdUser { get; set; }
 
         public GamesCore(int idUser)
@@ -23,10 +25,18 @@ namespace Games.Core
             Console.WriteLine($"Hi! {userName}");
             Console.WriteLine($"What game do you want to play?");
             Console.WriteLine($"{(int)EnumGame.XO} XO Game");
+            Console.WriteLine($"{(int)EnumGame.BakDice} Bak-Dice Game");
             Console.WriteLine($"0 Out");
-            if (int.TryParse(Console.ReadLine(), out var codeMenu) && codeMenu == (int)EnumGame.XO)
+            if (int.TryParse(Console.ReadLine(), out var codeMenu))
             {
-                games.StartGame(5, userName, out gameResult);
+                if (codeMenu == (int)EnumGame.XO)
+                {
+                    xo.StartGame(5, userName, out gameResult);
+                }
+                else if (codeMenu == (int)EnumGame.BakDice)
+                {
+                    bakdice.StartGame(5, userName, out gameResult);
+                }
             }
         }
     }

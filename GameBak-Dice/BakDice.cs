@@ -20,6 +20,168 @@
 
     public class BakDice
     {
+        public List<Player> playerList = new List<Player>();
+        public int BakValue { get; set; }
+        public int PlayerId { get; set; }
+        public int ValuesFrend { get; set; }
+        public int ValuesBot { get; set; }
+        public int Bak = 4;
+        public string PlayerName { get; set; }
+        public bool Dice = false;
 
+        public void StartGame(int id, string name, out string result)
+        {
+            PlayerId = id;
+            PlayerName = name;
+            result = null;
+            Setting();
+            CreatePlayers();
+            Game();
+        }
+
+        public void Game()
+        {
+            ShowFild();
+            FirstMove();
+            ShowFild();
+            Console.ReadKey();
+            while (true)
+            {
+
+                for (int i = 0; i < playerList.Count; i++)
+                {
+                    if (playerList[i].Bak >= 15) continue;
+                    Console.WriteLine($"Move {playerList[i].Name}");
+                    int dice1 = RandomDice();
+                    int dice2 = RandomDice();
+                    int dice3 = RandomDice();
+                    Console.WriteLine($"{dice1} {dice2} {dice3}");
+                    if (dice1 == Bak && dice2 == Bak && dice3 == Bak)
+                    {
+                        playerList[i].Bak = 15;
+                    }
+                    else if (dice1 == dice2 && dice1 == dice3)
+                    {
+                        playerList[i].Bak += 5;
+                    }
+                    else if (dice1 == Bak || dice2 == Bak || dice3 == Bak)
+                    {
+                        playerList[i].Bak += 1;
+                    }
+                }
+                Console.Clear();
+                ShowFild();
+                Console.ReadKey();
+            }
+        }
+
+        public void Setting()
+        {
+            Console.Clear();
+            Console.WriteLine("Let's set up the game!");
+            Console.WriteLine("How many of your friends will play?");
+            string value = Console.ReadLine();
+            if (int.TryParse(value, out int valueFriend))
+            {
+                if (valueFriend >= 0)
+                {
+                    ValuesFrend = valueFriend;
+                }
+                else
+                {
+                    Console.WriteLine("please read the condition");
+                }
+            }
+            Console.WriteLine("How many of Bot will play?");
+            value = Console.ReadLine();
+            if (int.TryParse(value, out int valueBOT))
+            {
+                if (valueBOT >= 0)
+                {
+                    ValuesBot = valueBOT;
+                }
+                else
+                {
+                    Console.WriteLine("please read the condition");
+                }
+            }
+            Console.WriteLine("Are we playing with real dice or computer dice? Y(real dice) / N (computer dice)");
+            string numberMenu = Console.ReadLine();
+            if (numberMenu.ToLower().Equals("y"))
+            {
+                Dice = true;
+                Console.WriteLine("succes");
+                Thread.Sleep(1000);
+            }
+            else if (numberMenu.ToLower().Equals("n"))
+            {
+                Console.WriteLine("succes");
+            }
+            Thread.Sleep(1000);
+        }
+        private void ShowFild()
+        {
+            Console.WriteLine($"Hello, {PlayerName}");
+            Console.WriteLine();
+            Console.WriteLine();
+            foreach (Player player in playerList)
+            {
+                Console.WriteLine(player);
+            }
+            Console.ReadKey();
+        }
+
+        private void CreatePlayers()
+        {
+            Player player = new Player();
+            string name = "";
+            Random rnd = new Random();
+            for (int i = 0; i < ValuesFrend; i++)
+            {
+                player = new Player();
+                Console.Write($"Enter the player's name {i + 1} : ");
+                name = Console.ReadLine();
+                player.Name = name;
+                Console.WriteLine(player);
+                playerList.Add(player);
+            }
+            for (int j = 0; j < ValuesBot; j++)
+            {
+                player = new Player();
+                player.Name = ((NameBot)rnd.Next(1, 14)).ToString();
+                playerList.Add(player);
+            }
+        }
+        private int RandomDice()
+        {
+            Random rnd = new Random();
+            return rnd.Next(1, 6);
+        }
+        private void FirstMove()
+        {
+            for (int i = 0; i < playerList.Count; i++)
+            {
+                Console.WriteLine($"Move {playerList[i].Name}");
+                for (int j = 0; j < 3; j++)
+                {
+                    playerList[i].LastDice += RandomDice();
+                    Console.WriteLine($"{playerList[i].LastDice}");
+                }
+                //Console.ReadKey();
+            }
+            //Player[] players= new Player[playerList.Count];
+            //for(int i = 0; i < playerList.Count; i ++)
+            //{
+            //    for (int j = 0; j < playerList.Count; j++)
+            //    {
+
+            //    }
+            //}
+            playerList.Sort((a, b) => a.LastDice.CompareTo(b.LastDice));
+        }
     }
 }
+
+
+
+

@@ -21,6 +21,6 @@ namespace GameBak_Dice
         Stepan = 11,
         Yakov = 12,
         Semyon = 13,
-        Igor = 14,
+        Igor = 14
     }
 }
