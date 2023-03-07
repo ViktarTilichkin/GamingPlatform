@@ -47,10 +47,20 @@
             Console.ReadKey();
             while (true)
             {
-
                 for (int i = 0; i < playerList.Count; i++)
                 {
-                    if (playerList[i].Bak >= 15) continue;
+                    List<Player> los = playerList.FindAll(x => x.Bak < 15);
+                    if (los.Count == 1)
+                    {
+                        Console.WriteLine($"You lose {los[0]})");
+                        Console.ReadKey();
+
+                    }
+                    if (playerList[i].Bak >= 15)
+                    {
+                        playerList[i].Bak = 15;
+                        continue;
+                    }
                     Console.WriteLine($"Move {playerList[i].Name}");
                     int dice1 = RandomDice();
                     int dice2 = RandomDice();
@@ -121,14 +131,13 @@
         }
         private void ShowFild()
         {
-            Console.WriteLine($"Hello, {PlayerName}");
             Console.WriteLine();
+            Console.WriteLine($"Hello, {PlayerName}");
             Console.WriteLine();
             foreach (Player player in playerList)
             {
                 Console.WriteLine(player);
             }
-            Console.ReadKey();
         }
 
         private void CreatePlayers()
@@ -165,19 +174,16 @@
                 for (int j = 0; j < 3; j++)
                 {
                     playerList[i].LastDice += RandomDice();
-                    Console.WriteLine($"{playerList[i].LastDice}");
+                    Console.Write($" Dice{i} : {playerList[i].LastDice} ");
                 }
-                //Console.ReadKey();
             }
-            //Player[] players= new Player[playerList.Count];
-            //for(int i = 0; i < playerList.Count; i ++)
-            //{
-            //    for (int j = 0; j < playerList.Count; j++)
-            //    {
-
-            //    }
-            //}
-            playerList.Sort((a, b) => a.LastDice.CompareTo(b.LastDice));
+            Comparison<Player> comparison = (a, b) =>
+            {
+                int result = b.LastDice - a.LastDice;
+                if (result != 0) return result;
+                return b.Bak - a.Bak;
+            };
+            playerList.Sort(comparison);
         }
     }
 }

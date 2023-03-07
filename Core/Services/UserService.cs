@@ -40,12 +40,13 @@ namespace Core.Services
                 return null;
             }
         }
-        public User? Update(User user, string password)
+        public User? Update(User user,string name, string password)
         {
 
             if (user == null) throw new ArgumentNullException(nameof(user));
             try
             {
+                user.Name = name;
                 user.Password = password;
                 return _UserRepsitory.Update(user);
             }

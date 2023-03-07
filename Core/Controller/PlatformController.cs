@@ -13,23 +13,19 @@ namespace Core.Controller
         private UserService servicUser = new UserService();
         public (bool, User?) Login()
         {
-            Console.WriteLine("Hello! Do you want to login ? Y/N");
-            string? menu = Console.ReadLine();
-            if (!string.IsNullOrEmpty(menu) && menu.ToUpper().Equals("Y"))
+            Console.WriteLine("Great!");
+            Console.WriteLine("Enter your username and password");
+            Console.Write("Enter Name: ");
+            string? name = Console.ReadLine();
+            Console.Write("Enter Password: ");
+            string? password = Console.ReadLine();
+            if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(password))
             {
-                Console.WriteLine("Great!");
-                Console.Write("Enter Name: ");
-                string? name = Console.ReadLine();
-                Console.Write("Enter Password: ");
-                string? password = Console.ReadLine();
-                if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(password))
+                User? userID = servicUser.Login(name, password);
+                if (userID != null)
                 {
-                    User? userID = servicUser.Login(name, password);
-                    if (userID != null)
-                    {
-                        Console.WriteLine("Succes");
-                        return (true, userID);
-                    }
+                    Console.WriteLine("Succes");
+                    return (true, userID);
                 }
             }
             return (false, null);
@@ -37,24 +33,20 @@ namespace Core.Controller
         }
         public (bool, User?) Create()
         {
-            Console.WriteLine("Hello! Hello! Do you want to create a user? Y/N");
-            string? menu = Console.ReadLine();
-            if (!string.IsNullOrEmpty(menu) && menu.ToUpper().Equals("Y"))
+            Console.WriteLine("Great!");
+            Console.WriteLine("Enter the Name (minimum 3 characters) and enter the password (minimum 4 characters)");
+            Console.Write("Enter Name: ");
+            string? name = Console.ReadLine();
+            Console.Write("Enter Password: ");
+            string? password = Console.ReadLine();
+            if (name.Length >= 3 && password.Length >= 4)
             {
-                Console.WriteLine("Great!");
-                Console.Write("Enter Name: ");
-                string? name = Console.ReadLine();
-                Console.Write("Enter Password: ");
-                string? password = Console.ReadLine();
-                if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(password))
+                User? userID = servicUser.Create(name, password);
+                if (userID != null)
                 {
-                    User? userID = servicUser.Create(name, password);
-                    if (userID != null)
-                    {
-                        Console.WriteLine("Succes");
-                        Thread.Sleep(3000);
-                        return (true, userID);
-                    }
+                    Console.WriteLine("Succes");
+                    Thread.Sleep(3000);
+                    return (true, userID);
                 }
             }
             Console.WriteLine("Oooopp! Something went wrong!");
@@ -72,12 +64,14 @@ namespace Core.Controller
             if (!string.IsNullOrEmpty(menu) && menu.ToUpper().Equals("Y"))
             {
                 Console.WriteLine("Great!");
-                Console.Write("Enter new Password: ");
+                Console.Write("Enter Name: ");
+                string? name = Console.ReadLine();
+                Console.Write("Enter Password: ");
                 string? password = Console.ReadLine();
-                if (!string.IsNullOrEmpty(password))
+                if (name.Length >= 3 && password.Length >= 4)
                 {
                     User cloneUser = user.Clone() as User;
-                    cloneUser = servicUser.Update(cloneUser, password);
+                    cloneUser = servicUser.Update(cloneUser, name, password);
                     if (cloneUser != null)
                     {
                         Console.WriteLine("Succes");

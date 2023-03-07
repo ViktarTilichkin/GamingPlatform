@@ -17,6 +17,10 @@ namespace GameBak_Dice
 
         public override string ToString()
         {
+            if (Bak >= 15)
+            {
+                return $"Name: {Name} Bak: {Bak}  LastDice {LastDice} You WIN";
+            }
             return $"Name: {Name} Bak: {Bak}  LastDice {LastDice}";
         }
 
