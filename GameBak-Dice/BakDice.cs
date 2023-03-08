@@ -21,13 +21,13 @@
     public class BakDice
     {
         public List<Player> playerList = new List<Player>();
-        public int BakValue { get; set; }
         public int PlayerId { get; set; }
         public int ValuesFrend { get; set; }
         public int ValuesBot { get; set; }
         public int Bak = 4;
         public string PlayerName { get; set; }
         public bool Dice = false;
+        public GameSave save = new GameSave();
 
         public void StartGame(int id, string name, out string result)
         {
@@ -41,20 +41,30 @@
 
         public void Game()
         {
+            int dice1 = default;
+            int dice2 = default;
+            int dice3 = default;
+
+            Console.Clear();
             ShowFild();
             FirstMove();
+            Console.Clear();
             ShowFild();
-            Console.ReadKey();
             while (true)
             {
                 for (int i = 0; i < playerList.Count; i++)
                 {
-                    List<Player> los = playerList.FindAll(x => x.Bak < 15);
-                    if (los.Count == 1)
+                    //var los = playerList.FindAll(x => x.Bak < 15);
+                    //if (los.Count == 1)
+                    //{
+                    //    Console.WriteLine($"You lose {los[0]})");
+                    //    Console.ReadKey();
+                    //}
+                    var lose = playerList.Where(x => x.Bak < 15);
+                    if (lose.Count() == 1)
                     {
-                        Console.WriteLine($"You lose {los[0]})");
+                        Console.WriteLine($"You lose {lose.ElementAt(0)}");
                         Console.ReadKey();
-
                     }
                     if (playerList[i].Bak >= 15)
                     {
@@ -62,9 +72,18 @@
                         continue;
                     }
                     Console.WriteLine($"Move {playerList[i].Name}");
-                    int dice1 = RandomDice();
-                    int dice2 = RandomDice();
-                    int dice3 = RandomDice();
+                    if (Dice)
+                    {
+                        dice1 = RealDice();
+                        dice2 = RealDice();
+                        dice3 = RealDice();
+                    }
+                    else
+                    {
+                        dice1 = RandomDice();
+                        dice2 = RandomDice();
+                        dice3 = RandomDice();
+                    }
                     Console.WriteLine($"{dice1} {dice2} {dice3}");
                     if (dice1 == Bak && dice2 == Bak && dice3 == Bak)
                     {
@@ -81,7 +100,12 @@
                 }
                 Console.Clear();
                 ShowFild();
+                Console.WriteLine();
+                save = new GameSave(playerList, PlayerId, ValuesFrend, ValuesBot, Bak, PlayerName, Dice);
+                save.SaveGame(PlayerId);
+                Console.WriteLine($"press the button to continue");
                 Console.ReadKey();
+
             }
         }
 
@@ -164,26 +188,64 @@
         private int RandomDice()
         {
             Random rnd = new Random();
-            return rnd.Next(1, 6);
+            int dice = rnd.Next(1, 6);
+            Console.WriteLine($"Dice value: {dice}");
+            return dice;
+        }
+        private int RealDice()
+        {
+            Console.Write("Dice value: ");
+            do
+            {
+                string number = Console.ReadLine();
+                if (int.TryParse(number, out int num))
+                {
+                    if (num > 0 && num <= 6)
+                    {
+                        return num;
+                    }
+                }
+            }
+            while (true);
         }
         private void FirstMove()
         {
+            int dice = default;
             for (int i = 0; i < playerList.Count; i++)
             {
                 Console.WriteLine($"Move {playerList[i].Name}");
                 for (int j = 0; j < 3; j++)
                 {
-                    playerList[i].LastDice += RandomDice();
-                    Console.Write($" Dice{i} : {playerList[i].LastDice} ");
+                    if (Dice)
+                    {
+                        dice = RealDice();
+                        playerList[i].LastDice += dice;
+                    }
+                    else
+                    {
+                        dice = RandomDice();
+                        playerList[i].LastDice += dice;
+                    }
                 }
+                Console.Write($"Total: {playerList[i].LastDice}");
+                Console.WriteLine();
             }
             Comparison<Player> comparison = (a, b) =>
             {
                 int result = b.LastDice - a.LastDice;
-                if (result != 0) return result;
-                return b.Bak - a.Bak;
+                return result;
             };
             playerList.Sort(comparison);
+            Console.WriteLine($"The player {playerList[playerList.Count - 1].Name} will determine the number Bak");
+            if (Dice)
+            {
+                Bak = RealDice();
+            }
+            else
+            {
+                Bak = RandomDice();
+            }
+            Console.WriteLine($"Bak it {Bak}");
         }
     }
 }

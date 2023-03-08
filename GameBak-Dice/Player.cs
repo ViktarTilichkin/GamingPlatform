@@ -19,9 +19,9 @@ namespace GameBak_Dice
         {
             if (Bak >= 15)
             {
-                return $"Name: {Name} Bak: {Bak}  LastDice {LastDice} You WIN";
+                return $"Name: {Name} Bak: {Bak}   You WIN";
             }
-            return $"Name: {Name} Bak: {Bak}  LastDice {LastDice}";
+            return $"Name: {Name} Bak: {Bak}  ";
         }
 
 
