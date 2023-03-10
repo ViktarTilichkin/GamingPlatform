@@ -31,11 +31,11 @@ namespace Games.Core
             {
                 if (codeMenu == (int)EnumGame.XO)
                 {
-                    xo.StartGame(5, userName, out gameResult);
+                    xo.StartGame(IdUser, userName, out gameResult);
                 }
                 else if (codeMenu == (int)EnumGame.BakDice)
                 {
-                    bakdice.StartGame(5, userName, out gameResult);
+                    bakdice.StartGame(IdUser, userName, out gameResult);
                 }
             }
         }

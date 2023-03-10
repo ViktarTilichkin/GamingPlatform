@@ -133,6 +133,7 @@ namespace GameXO
                     if (row == 1) game.fieldROW2[col] = board[row, col];
                     if (row == 2) game.fieldROW3[col] = board[row, col];
                 }
+                Console.WriteLine(game.fieldROW1[row]);
             }
         }
         private void ConvertFieldToBoard(char[] row1, char[] row2, char[] row3, out char[,] board)

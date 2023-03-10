@@ -27,15 +27,24 @@
         public int Bak = 4;
         public string PlayerName { get; set; }
         public bool Dice = false;
+        public bool Load = false;
+        public bool StopGame = true;
         public GameSave save = new GameSave();
 
         public void StartGame(int id, string name, out string result)
         {
-            PlayerId = id;
-            PlayerName = name;
+            Console.WriteLine(id);
+            (playerList, PlayerId, ValuesFrend, ValuesBot, Bak, PlayerName, Dice) = save.LoadGame(id, out bool load);
+            if (!load)
+            {
+                playerList = new List<Player>();
+                PlayerId = id;
+                PlayerName = name;
+                Load = load;
+                Setting();
+                CreatePlayers();
+            }
             result = null;
-            Setting();
-            CreatePlayers();
             Game();
         }
 
@@ -44,22 +53,16 @@
             int dice1 = default;
             int dice2 = default;
             int dice3 = default;
-
+            string name = default;
             Console.Clear();
             ShowFild();
-            FirstMove();
+            if (!Load) FirstMove();
             Console.Clear();
             ShowFild();
-            while (true)
+            while (StopGame)
             {
                 for (int i = 0; i < playerList.Count; i++)
                 {
-                    //var los = playerList.FindAll(x => x.Bak < 15);
-                    //if (los.Count == 1)
-                    //{
-                    //    Console.WriteLine($"You lose {los[0]})");
-                    //    Console.ReadKey();
-                    //}
                     var lose = playerList.Where(x => x.Bak < 15);
                     if (lose.Count() == 1)
                     {
@@ -71,7 +74,7 @@
                         playerList[i].Bak = 15;
                         continue;
                     }
-                    Console.WriteLine($"Move {playerList[i].Name}");
+                    name = playerList[i].Name;
                     if (Dice)
                     {
                         dice1 = RealDice();
@@ -84,7 +87,6 @@
                         dice2 = RandomDice();
                         dice3 = RandomDice();
                     }
-                    Console.WriteLine($"{dice1} {dice2} {dice3}");
                     if (dice1 == Bak && dice2 == Bak && dice3 == Bak)
                     {
                         playerList[i].Bak = 15;
@@ -97,15 +99,23 @@
                     {
                         playerList[i].Bak += 1;
                     }
-                }
-                Console.Clear();
-                ShowFild();
-                Console.WriteLine();
-                save = new GameSave(playerList, PlayerId, ValuesFrend, ValuesBot, Bak, PlayerName, Dice);
-                save.SaveGame(PlayerId);
-                Console.WriteLine($"press the button to continue");
-                Console.ReadKey();
 
+                    Console.Clear();
+                    ShowFild();
+                    Console.WriteLine();
+                    Console.WriteLine($"Move {name}");
+                    Console.WriteLine($"{dice1} {dice2} {dice3}");
+                    Console.WriteLine();
+                    save = new GameSave(playerList, PlayerId, ValuesFrend, ValuesBot, Bak, PlayerName, Dice);
+                    save.SaveGame(PlayerId);
+                    Console.WriteLine($"press the button to continue or -1 to exit");
+                    string menu = Console.ReadLine();
+                    if (menu.Equals("-1"))
+                    {
+                        StopGame = false;
+                        break;
+                    }
+                }
             }
         }
 
@@ -157,6 +167,8 @@
         {
             Console.WriteLine();
             Console.WriteLine($"Hello, {PlayerName}");
+            Console.WriteLine();
+            Console.WriteLine($"Bak it {Bak}");
             Console.WriteLine();
             foreach (Player player in playerList)
             {

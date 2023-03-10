@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace GameBak_Dice
 {
@@ -39,7 +40,7 @@ namespace GameBak_Dice
                 string line = reader.ReadLine();
                 while (line != null)
                 {
-                    var fild = JsonSerializer.Deserialize<EmulationGame>(line, serializeoptions);
+                    var fild = JsonConvert.DeserializeObject<EmulationGame>(line);
                     if (fild.PlayerId != playerId)
                     {
                         gamesave.Add(fild);
@@ -49,21 +50,16 @@ namespace GameBak_Dice
             }
             reader.Close();
             gamesave.Add(game);
-            foreach (EmulationGame game in gamesave)
-            {
-                Console.WriteLine(game.ToString());
-                Console.ReadLine();
-            }
             StreamWriter sw1 = new StreamWriter(path);
             foreach (EmulationGame item in gamesave)
             {
-                string json = JsonSerializer.Serialize(item, serializeoptions);
+                string json = JsonConvert.SerializeObject(game);
                 sw1.WriteLine(json);
             }
             sw1.Close();
         }
 
-        public bool LoadGame(int playerId, out bool load)
+        public (List<Player>, int, int, int, int, string, bool) LoadGame(int playerId, out bool load)
         {
             load = false;
             bool foundSave = false;
@@ -81,7 +77,7 @@ namespace GameBak_Dice
                     string line = reader.ReadLine();
                     while (line != null)
                     {
-                        var fild = JsonSerializer.Deserialize<EmulationGame>(line, serializeoptions);
+                        var fild = JsonConvert.DeserializeObject<EmulationGame>(line);
                         gamesave.Add(fild);
                         line = reader.ReadLine();
                     };
@@ -105,7 +101,7 @@ namespace GameBak_Dice
                         Thread.Sleep(1500);
                         Console.ReadKey();
                         load = true;
-                        return true;
+                        return (save.playerList, save.PlayerId, save.ValuesFrend, save.ValuesBot, save.Bak, save.PlayerName, save.Dice); ;
                     }
                 }
                 else
@@ -114,7 +110,7 @@ namespace GameBak_Dice
                 }
 
             }
-            return false;
+            return (null, default, default, default, default, default, default);
         }
     }
 }

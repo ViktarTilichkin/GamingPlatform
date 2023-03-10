@@ -26,7 +26,7 @@ public class XO
         (_field, _isXMove, _SideToPlayerX, _SideToPlayer, _PlayerVsBot) = save.LoadGame(_PlaeyrId, out bool load);
         if (!load) Setting();
         Start(userName, out result);
-        save = new GameSave(_field, _isXMove, _PlayerVsBot, _SideToPlayer, 5);
+        save = new GameSave(_field, _isXMove, _PlayerVsBot, _SideToPlayer, _PlaeyrId);
         save.SaveGame(_PlaeyrId);
     }
     public void Setting()
