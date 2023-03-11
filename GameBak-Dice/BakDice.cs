@@ -222,30 +222,19 @@
         }
         private void FirstMove()
         {
-            int dice = default;
             for (int i = 0; i < playerList.Count; i++)
             {
                 Console.WriteLine($"Move {playerList[i].Name}");
                 for (int j = 0; j < 3; j++)
                 {
-                    if (Dice)
-                    {
-                        dice = RealDice();
-                        playerList[i].LastDice += dice;
-                    }
-                    else
-                    {
-                        dice = RandomDice();
-                        playerList[i].LastDice += dice;
-                    }
+                    playerList[i].LastDice += Dice ? RealDice() : RandomDice();
                 }
                 Console.Write($"Total: {playerList[i].LastDice}");
                 Console.WriteLine();
             }
             Comparison<Player> comparison = (a, b) =>
             {
-                int result = b.LastDice - a.LastDice;
-                return result;
+                return b.LastDice - a.LastDice;
             };
             playerList.Sort(comparison);
             Console.WriteLine($"The player {playerList[playerList.Count - 1].Name} will determine the number Bak");

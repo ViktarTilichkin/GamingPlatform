@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
 
 namespace GameBak_Dice
 {
@@ -40,7 +40,7 @@ namespace GameBak_Dice
                 string line = reader.ReadLine();
                 while (line != null)
                 {
-                    var fild = JsonConvert.DeserializeObject<EmulationGame>(line);
+                    var fild = JsonSerializer.Deserialize<EmulationGame>(line);
                     if (fild.PlayerId != playerId)
                     {
                         gamesave.Add(fild);
@@ -53,7 +53,7 @@ namespace GameBak_Dice
             StreamWriter sw1 = new StreamWriter(path);
             foreach (EmulationGame item in gamesave)
             {
-                string json = JsonConvert.SerializeObject(game);
+                string json = JsonSerializer.Serialize(item);
                 sw1.WriteLine(json);
             }
             sw1.Close();
@@ -77,7 +77,7 @@ namespace GameBak_Dice
                     string line = reader.ReadLine();
                     while (line != null)
                     {
-                        var fild = JsonConvert.DeserializeObject<EmulationGame>(line);
+                        var fild = JsonSerializer.Deserialize<EmulationGame>(line);
                         gamesave.Add(fild);
                         line = reader.ReadLine();
                     };
