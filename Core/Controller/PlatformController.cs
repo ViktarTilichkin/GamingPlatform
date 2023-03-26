@@ -81,7 +81,7 @@ namespace Core.Controller
                 }
             }
             Console.WriteLine("Oooopp! Something went wrong!");
-            Thread.Sleep(3000);
+            Thread.Sleep(4000);
             return (true, null);
         }
         public (bool, User?) Delete(User? user)
@@ -98,12 +98,12 @@ namespace Core.Controller
                 if (servicUser.Delete(user))
                 {
                     Console.WriteLine("Succes");
-                    Thread.Sleep(3000);
+                    Thread.Sleep(4000);
                     return (false, null);
                 }
             }
             Console.WriteLine("Oooopp! Something went wrong!");
-            Thread.Sleep(3000);
+            Thread.Sleep(4000);
             return (false, null);
         }
     }

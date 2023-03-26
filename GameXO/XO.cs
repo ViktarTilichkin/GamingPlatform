@@ -206,7 +206,6 @@ public class XO
 
         ShowField();
 
-        // Устанавливаем цвет рисования белым
         Console.ForegroundColor = ConsoleColor.White;
     }
 
@@ -328,14 +327,4 @@ public class XO
         }
         return (row, col);
     }
-    //private void InputStep(out int fild)
-    //{
-    //    string input = Console.ReadLine();
-    //    if (!int.TryParse(input, out  fild))
-    //    {
-    //        ShowError(_coordErrorMessage);
-    //        continue;
-    //    }
-    //    if (fild == -1) break;
-    //}
-}
+ }

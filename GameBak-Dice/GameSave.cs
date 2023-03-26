@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-//using Newtonsoft.Json;
 
 namespace GameBak_Dice
 {
@@ -30,30 +30,29 @@ namespace GameBak_Dice
         {
             List<EmulationGame> gamesave = new List<EmulationGame>();
             EmulationGame save = new EmulationGame();
-            StreamReader reader = new StreamReader("saveBakDice.txt");
-            var serializeoptions = new JsonSerializerOptions
+            if (File.Exists("saveBakDice.txt"))
             {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            };
-            while (!reader.EndOfStream)
-            {
-                string line = reader.ReadLine();
-                while (line != null)
+                StreamReader reader = new StreamReader("saveBakDice.txt");
+                while (!reader.EndOfStream)
                 {
-                    var fild = JsonSerializer.Deserialize<EmulationGame>(line);
-                    if (fild.PlayerId != playerId)
+                    string line = reader.ReadLine();
+                    while (line != null)
                     {
-                        gamesave.Add(fild);
-                    }
-                    line = reader.ReadLine();
-                };
+                        var fild = JsonConvert.DeserializeObject<EmulationGame>(line);
+                        if (fild.PlayerId != playerId)
+                        {
+                            gamesave.Add(fild);
+                        }
+                        line = reader.ReadLine();
+                    };
+                }
+                reader.Close();
             }
-            reader.Close();
             gamesave.Add(game);
             StreamWriter sw1 = new StreamWriter(path);
             foreach (EmulationGame item in gamesave)
             {
-                string json = JsonSerializer.Serialize(item);
+                string json = JsonConvert.SerializeObject(game);
                 sw1.WriteLine(json);
             }
             sw1.Close();
@@ -68,16 +67,12 @@ namespace GameBak_Dice
                 List<EmulationGame> gamesave = new List<EmulationGame>();
                 EmulationGame save = new EmulationGame();
                 StreamReader reader = new StreamReader("saveBakDice.txt");
-                var serializeoptions = new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                };
                 while (!reader.EndOfStream)
                 {
                     string line = reader.ReadLine();
                     while (line != null)
                     {
-                        var fild = JsonSerializer.Deserialize<EmulationGame>(line);
+                        var fild = JsonConvert.DeserializeObject<EmulationGame>(line);
                         gamesave.Add(fild);
                         line = reader.ReadLine();
                     };

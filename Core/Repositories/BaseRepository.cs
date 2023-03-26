@@ -18,30 +18,12 @@ namespace Core.Repositories
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             };
             using StreamReader sr1 = new StreamReader(path);
-            //string line = sr1.ReadLine();
-            //while (line != null)
-            //{
-            //    var fild = JsonSerializer.Deserialize<T>(line, serializeoptions);
-            //    data.Add(fild);
-            //    line = sr1.ReadLine();
-            //};
             for (string line = sr1.ReadLine(); line != null; line = sr1.ReadLine())
             {
-                //data.Add(JsonSerializer.Deserialize<T>(line, serializeoptions));
                 yield return JsonSerializer.Deserialize<T>(line, serializeoptions);
 
             }
             sr1.Close();
-            // return data;
-            //}
-            //catch (FileNotFoundException)
-            //{
-            //    return data;
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
         }
         protected void UpdateFile(List<T> dataList)
         {
