@@ -59,29 +59,21 @@ namespace Core.Controller
             {
                 return (false, null);
             }
-            Console.WriteLine("Hello! Hello! Do you want to edit your account? Y/N");
-            string? menu = Console.ReadLine();
-            if (!string.IsNullOrEmpty(menu) && menu.ToUpper().Equals("Y"))
+            Console.Write("Enter Name: ");
+            string? name = Console.ReadLine();
+            Console.Write("Enter Password: ");
+            string? password = Console.ReadLine();
+            if (name.Length >= 3 && password.Length >= 4)
             {
-                Console.WriteLine("Great!");
-                Console.Write("Enter Name: ");
-                string? name = Console.ReadLine();
-                Console.Write("Enter Password: ");
-                string? password = Console.ReadLine();
-                if (name.Length >= 3 && password.Length >= 4)
+                User cloneUser = user.Clone() as User;
+                cloneUser = servicUser.Update(cloneUser, name, password);
+                if (cloneUser != null)
                 {
-                    User cloneUser = user.Clone() as User;
-                    cloneUser = servicUser.Update(cloneUser, name, password);
-                    if (cloneUser != null)
-                    {
-                        Console.WriteLine("Succes");
-                        Thread.Sleep(3000);
-                        return (true, cloneUser);
-                    }
+                    Console.WriteLine("Succes");
+                    Thread.Sleep(3000);
+                    return (true, cloneUser);
                 }
             }
-            Console.WriteLine("Oooopp! Something went wrong!");
-            Thread.Sleep(4000);
             return (true, null);
         }
         public (bool, User?) Delete(User? user)
@@ -90,7 +82,7 @@ namespace Core.Controller
             {
                 return (false, null);
             }
-            Console.WriteLine("Hello!  Do you want to delete your account? Y/N");
+            Console.WriteLine("Hello!  Do you want to delete your account? 'y' (yes) or 'n' (not)");
             string? menu = Console.ReadLine();
             if (menu.ToUpper().Equals("Y"))
             {

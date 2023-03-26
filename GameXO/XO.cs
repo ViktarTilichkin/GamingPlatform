@@ -54,14 +54,11 @@ public class XO
         numberMenu = Console.ReadLine();
         if (numberMenu.ToLower().Equals("y"))
         {
-            Console.WriteLine("succes");
-            _PlayerVsBot = true;
-            Thread.Sleep(1000);
+                       _PlayerVsBot = true;
+            
         }
-        else if (numberMenu.ToLower().Equals("n"))
-        {
-            Console.WriteLine("succes");
-        }
+        
+        Console.WriteLine("succes");
         Thread.Sleep(1000);
     }
     public void Start(string userName, out string result)

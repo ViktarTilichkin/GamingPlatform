@@ -53,11 +53,6 @@ namespace GameXO
             }
             reader.Close();
             gamesave.Add(game);
-            foreach (EmulationGame game in gamesave)
-            {
-                Console.WriteLine(game.ToString());
-                Console.ReadLine();
-            }
             StreamWriter sw1 = new StreamWriter(path);
             foreach (EmulationGame item in gamesave)
             {
@@ -109,8 +104,6 @@ namespace GameXO
                         save.SideToPlayer = save.SideToPlayerX ? 'X' : 'O';
                         Console.WriteLine($"Игра игрока с id {playerId} загружена ");
                         Thread.Sleep(1500);
-                        Console.WriteLine(save.SideToPlayer);
-                        Console.ReadKey();
                         load = true;
                         return (board, save.isXMove, save.SideToPlayerX, save.SideToPlayer, save.PlayerVsBot);
                     }
