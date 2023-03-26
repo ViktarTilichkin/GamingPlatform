@@ -11,9 +11,10 @@ namespace Core.Repositories
     public class UserRepository : BaseRepository<User>
     {
         protected override string path { get; } = AppDomain.CurrentDomain.BaseDirectory + "users.txt";
+        protected string NameFile = "users.txt";
         public User GetByName(string login)
         {
-            var userList = GetAll();
+            var userList = GetAll(NameFile);
             for (int i = 0; i < userList.Count(); i++)
             {
                 User usertest = userList.ElementAt(i);
@@ -26,7 +27,7 @@ namespace Core.Repositories
         }
         public bool Exist(string name)
         {
-            foreach (var user in GetAll())
+            foreach (var user in GetAll(NameFile))
             {
                 if (user.Name.Equals(name))
                 {
@@ -37,7 +38,7 @@ namespace Core.Repositories
         }
         public User Create(User user)
         {
-            List<User> userList = GetAll().ToList();
+            List<User> userList = GetAll(NameFile).ToList();
             user.Id = GetNextId();
             userList.Add(user);
             UpdateFile(userList);
@@ -45,7 +46,7 @@ namespace Core.Repositories
         }
         public User Update(User user)
         {
-            List<User> userList = GetAll().ToList();
+            List<User> userList = GetAll(NameFile).ToList();
             int index = userList.FindIndex(x => x.Id == user.Id);
             if (index < 0)
             {
@@ -57,13 +58,13 @@ namespace Core.Repositories
         }
         public void Delete(int idUser)
         {
-            List<User> userList = GetAll().ToList();
+            List<User> userList = GetAll(NameFile).ToList();
             userList.RemoveAll(x => x.Id == idUser);
             UpdateFile(userList);
         }
         private int GetNextId()
         {
-            var userList = GetAll();
+            var userList = GetAll(NameFile);
             int lastID = userList.LastOrDefault()?.Id ?? 0;
             return ++lastID;
         }

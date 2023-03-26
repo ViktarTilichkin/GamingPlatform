@@ -11,19 +11,23 @@ namespace Core.Repositories
     public abstract class BaseRepository<T>
     {
         protected abstract string path { get; }
-        protected IEnumerable<T> GetAll()
+        protected IEnumerable<T> GetAll(string nameFile)
         {
-            var serializeoptions = new JsonSerializerOptions
+            if (File.Exists(nameFile))
             {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            };
-            using StreamReader sr1 = new StreamReader(path);
-            for (string line = sr1.ReadLine(); line != null; line = sr1.ReadLine())
-            {
-                yield return JsonSerializer.Deserialize<T>(line, serializeoptions);
+                var serializeoptions = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                };
+                using StreamReader sr1 = new StreamReader(path);
+                for (string line = sr1.ReadLine(); line != null; line = sr1.ReadLine())
+                {
+                    yield return JsonSerializer.Deserialize<T>(line, serializeoptions);
 
+                }
+                sr1.Close();
             }
-            sr1.Close();
+
         }
         protected void UpdateFile(List<T> dataList)
         {
